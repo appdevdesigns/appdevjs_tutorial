@@ -1,0 +1,30 @@
+<h1 class='h1'>async</h1>
+
+<p>Asynchronous programming is a relatively new way of doing things. And things can get pretty messy if we are not careful. The <i>async</i> module provides several useful and time saving flow control constructs for managing execution of asynchronous functions. Full documentation is found <a href="https://github.com/caolan/async" target="_blank">here</a>.</p>
+
+<h2>Installation</h2>
+<p><kbd>npm install async</kbd></p>
+
+
+<h2>Quick Examples</h2>
+<pre class="code-highlight">
+    async.map(['file1','file2','file3'], fs.stat, function(err, results){
+        <i>// results is now an array of stats for each file</i>
+    });
+    
+    async.filter(['file1','file2','file3'], path.exists, function(results){
+        <i>// results now equals an array of the existing files</i>
+    });
+    
+    async.parallel([
+        function(){ ... },
+        function(){ ... }
+    ], callback);
+    
+    async.series([
+        function(){ ... },
+        function(){ ... }
+    ]);
+</pre>
+
+

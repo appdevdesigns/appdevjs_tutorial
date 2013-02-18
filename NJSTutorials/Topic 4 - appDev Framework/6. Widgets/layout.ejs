@@ -1,0 +1,51 @@
+<h1>Widgets</h1>
+
+<p>Widgets are predefined objects that perform client side actions on a web page. Widgets can be provided site wide, per module, or even per interface. However, each widget will follow a similar definition format:
+
+<dl>
+    <dt>File Locations</dt>
+        <dd><ul>
+            <li>widgets provided by the appDev framework are defined in <samp>appDev/data/scripts/appDev/widgets/<i>[widgetName]</i>/</samp></li>
+            <li>widgets provided by a module for use within the module are defined in <samp>appDev/modules/<i>[module]</i>/data/scripts/widgets/<i>[widgetName]</i>/</samp></li>
+            <li>widgets provided by an interface for use within the interface are defined in <samp>appDev/modules/<i>[module]</i>/interfaces/<i>[interface]</i>/data/widgets/<i>[widgetName]</i></samp></li>
+        </ul></dd>
+</dl>
+
+<dl>
+    <dt>Files</dt>
+        <dd>each widget definition contains the following files:<ul>
+            <li><samp><i>[widgetName]</i>.js</samp>  :  The JS controller for the widget</li>
+            <li><samp>dep_<i>[widgetName]</i>.js</samp>  :  CSS & JS dependencies for the widget</li>
+            <li><samp>labels_<i>[lang]</i>.po</samp>   : setup based label definitions</li>
+        </ul></dd>
+        
+        <dd>NOTE: if a widget is a wraper around another "off the shelf" widget, then include the initial .js file in the folder and reference it as a steal(...) dependency before the widget is created in <samp><i>[widgetName]</i>.js</samp>:<pre>
+    steal('original.js').then(function() {
+        $.Controller.extend("AppdevMenuIpod",
+            {
+                ...
+                
+            }
+        });
+</pre></dd>
+
+        <dd>NOTE: widget naming convention is:<br/>
+        <samp><i>[context]</i>_<i>[type]</i>_<i>[specific]</i></samp></dd>
+        
+        <dd>eg:<br/>
+        <samp>appdev_menu_ipod</samp><br/>
+        <samp>hris_summary_todos</samp><br/>
+        <samp>stewardwise_summary_useraccount</samp></dd>
+
+</dl>
+</p>
+
+
+<h2>Best Practices</h2>
+<p>
+    <ul>
+        <li>All widgets will properly respond to multilingual language switch updates.</li>
+        <li>Off the shelf widgets that do not play nicely with the multilingual switching system will be wrapped by an appDev widget, and we will handle content updating for language options.</li>
+        <li>All widgets work from ListManagers/ListIterators provided from our model objects. If only one dataset is requred, then the parameter is <samp>{ dataMAnager: <i>[listManagerName]</i> }</samp>. Else if more than one dataset is required, keep the parameter names similar to "dataManager". eg: <samp>{ availableListDataManager: <i>[listManagerName]</i>, selectedListDataManager: '<i>[listManagerName]</i>' }</samp></li>
+    </ul>
+</p>

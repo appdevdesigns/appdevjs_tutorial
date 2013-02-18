@@ -1,0 +1,44 @@
+<h1 class='h1'>JavascriptMVC Controller</h1>
+<ul>
+<li>The JavascriptMVC Controller can be used for responding to and handling events, affecting View templates and much more!
+<li>To set up a Controller you need to;
+<ul><li>1. Declare it
+<ul>
+<pre class='code-highlight'>
+$.Controller(<span>"MyWidgetControl"</span>,{
+  init : <i>function</i>(){
+    this.element.css(<span>"color","red"</span>)
+  }
+})
+</pre>
+</ul>
+<li>2. Attach it to an element (which calls the init)
+<ul>
+<pre class='code-highlight'>
+$(<span>"#myelement"</span>).my_widget_control(); 
+</pre>
+</ul><li>Note the strange JQuery syntax which adds underscores in front of capitals and drops the case!</ul>
+<li>Event handling is easy to set up through a publish/subscribe system. For example;
+<ul><li>We have 2 Controllers; 'MyWidgetA' is attached to a div element and 'MyWidgetB' to a label
+<li>We want 'MyWidgetB' to read 'hello' when 'MyWidgetA' is clicked;
+<ul>
+<pre class='code-highlight'>
+$.Controller(<span>"MyWidgetA"</span>,{
+    <span>"div click"</span>: <i>function</i> (id, ev) {            
+        OpenAjax.hub.publish(<span>"something.clicked", { data: 'hello' }</span>);
+    }
+})
+
+$.Controller(<span>"MyWidgetB"</span>,{
+    <span>"something.clicked subscribe" </span>: <i>function</i>(called, data){
+        this.element.innerHTML = data;
+    }
+})
+
+$(<span>"#myelement"</span>).my_widget_a();
+$(<span>"#mylabel"</span>).my_widget_b();
+</pre>
+</ul>
+</ul>
+<li>Additional documentation for JavascriptMVC's Controller layer can be found at;
+<ul><li><a href='http://javascriptmvc.com/docs.html#!mvc.controller'>http://javascriptmvc.com/docs.html#!mvc.controller</a></ul>

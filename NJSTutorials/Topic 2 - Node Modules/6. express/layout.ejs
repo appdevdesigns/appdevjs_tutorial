@@ -1,0 +1,20 @@
+<h1 class='h1'>express</h1>
+
+<p>Remember our Hello World example from before?</p>
+
+    <pre class='code-highlight'>
+    <i>var</i> http = require(<span>'http'</span>); 
+    http.createServer(function (req, res) {
+        res.writeHead(<span>200, {'Content-Type': 'text/plain'}</span>); 
+        res.end(<span>'Hello World\n'</span>); 
+    }).listen(<span>1337, "127.0.0.1"</span>);
+    console.log(<span>'Server running at http://127.0.0.1:1337/'</span>);</pre>
+
+<p>It used the <i>http</i> core module, which gives you direct low level access to the guts of the HTTP protocol. Great for when you need to write specific or manually optimized code. But what about session handling, cookies, GET & POST data, request routing, and all that good stuff you know from Apache + PHP? That's where <i>express</i> comes in.</p>
+
+<p>Express is a very useful 3rd party library that we will be using extensively in the new appDev framework. Documentation for it can be found here;</p>
+<ul><li><a href='http://expressjs.com/'>http://expressjs.com/</a></li></ul>
+
+<p><kbd>npm install express</kbd></p>
+
+<p>Now let's look at an example.</p>

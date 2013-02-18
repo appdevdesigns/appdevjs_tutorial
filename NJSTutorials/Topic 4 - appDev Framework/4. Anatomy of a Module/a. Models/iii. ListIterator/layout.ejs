@@ -1,0 +1,60 @@
+<h1>Models - Client Usage - ListIterator</h1>
+<p>Our framework provides an additional client side object to help manage working with lists of models returned from the server.</p>
+
+<h2>ListIterator Usage:</h2>
+<p>Using the model: (mouse over the code to view comments)
+<pre class="code-explain">
+<span>var listViewers = Viewer.listManager({
+    viewer_isactive: true
+});<div class="caption">creates the ListIterator object. The param is the same as you would send to a <samp>.findAll()</samp> method.</div></span>
+
+<span>listViewers.bind('change', function() {});<div class="caption">Register a callback to be called every time the data in the list changes (<samp>.refresh()</samp> or <samp>.findAll()</samp> ...)</div></span>
+
+<span>listViewers.refresh();<div class="caption">reload the data in the list according to the inital parameters given.</div></span>
+
+<span>listViewers.findAll({});<div class="caption">reload the data in the list according to the parameters passed in.</div></span>
+
+<span>var listReloaded = listViewers.refresh();
+var listFound = listAddresses.findAll({});
+$.when(listReloaded, listFound)
+    .then(function() { ... });<div class="caption">both <samp>.refresh()</samp> and <samp>.findAll()</samp> return deferreds.</div><p>Note: both <samp>.refresh()</samp> and <samp>.findAll()</samp> trigger 'change' events when completed. The bound handlers will be called before the deferreds are processed.</p></span>
+    
+<span>listViewers.each(function(viewer) {
+    viewer.attr('viewer_isactive', false);
+    viewer.save();
+});<div class="caption"><p>An <samp>.each()</samp> iterator will allow you to call a provided function for each element in the list.</p></div></span>
+
+</pre>
+</p>
+
+
+
+<h2>When to Use</h2>
+<p>ListIterators work best in situations where there are multiple on-screen widgets that work with different portions of the same dataset. Instead of each widget pulling the same data over and over, you can provide them with a common ListIterator. Updating the ListIterator will alert each widget to update its display.</p>
+
+<p><pre>
+    // get all people in same family
+    var listFamily = People.listManager({ family_id: 100 });
+    
+    // tell our widgets to show their info about these people
+    $('#NameList').family_widget_names({ dataManager: listFamily });
+    $('#PassportList').family_widget_passports({ dataManager: listFamily });
+    #('#BloodTypes').family_widget_bloodtypes({ dataManager: listFamily });
+    
+    // now with a single AJAX load, multiple widgets can display their data
+    
+    // when any other code updates listFamily, each of the widgets will be alerted
+    listFamily.refresh(); // this calls each widget's 'change' callback.
+
+</pre></p>
+
+
+
+<p>All framework provided widgets will support the use of a ListIterator using the common <samp>{ dataManager: {ListIterator} }</samp> parameter option.</p>
+
+<p><pre>
+    $('#myDropList').appdev_list_searchable({
+        dataManager: listItems,
+        ...
+    });
+</pre></p>

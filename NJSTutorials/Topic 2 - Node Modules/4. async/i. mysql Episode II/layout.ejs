@@ -1,0 +1,82 @@
+<h1>mysql Episode II</h1>
+
+<p>If you went through the exercise from the <i>mysql</i> section, you will know by now that how cumbersome it can be to execute several asynchronous functions in sequence. (If you didn't do the exercise, then bad programmer! Bad!)</p>
+
+<p>Let's see how it would look with <i>async</i>, using the <i>series()</i> function.</p>
+
+<pre class="code-highlight">
+async = require('async');
+mysql = require('mysql');
+db = mysql.createClient({
+    user: 'root',
+    password: 'super secret password',
+    host: '127.0.0.1',
+    port: '3306'
+});
+
+function createDB(callback) {
+    var sql1 = <span>"CREATE DATABASE nodejs"</span>;
+    db.query(sql1, [], function(err, results, fields) {
+        if (err) throw err;
+        callback();
+    });
+}
+
+function useDB(callback) {
+    var sql2 = <span>"USE nodejs"</span>;
+    db.query(sql2, [], function(err, results, fields) {
+        if (err) throw err;
+        callback();
+    });
+}
+
+function createTable(callback) {
+    var sql3 = <span>" \
+        CREATE TABLE test ( \
+          test_id int(11) NOT NULL AUTO_INCREMENT, \
+          test_title TEXT, \
+          test_value int(11) NOT NULL DEFAULT 0, \
+          PRIMARY KEY (test_id) \
+        ) ENGINE=MyISAM \
+    "</span>;
+    db.query(sql3, [], function(err, results, fields) {
+        if (err) throw err;
+        callback();
+    });
+}
+
+function insertData(callback) {
+    var sql4;
+    sql4 += <span>"INSERT INTO test (test_title, test_value) "</span>;
+    sql4 += <span>"VALUES (?, ?), (?, ?)"</span>;
+    var values = ['foo', 123, 'bar', 456];
+    db.query(sql4, values, function(err, results, fields) {
+        if (err) throw err;
+        callback();
+    });
+}
+
+function selectData(callback) {
+    var sql5 = <span>"SELECT * FROM test"</span>;
+    db.query(sql5, [], function(err, results, fields) {
+        if (err) throw err;
+        console.log("Contents of `test` table:");
+        console.log(results);
+        callback();
+    });
+}
+
+<i>// Actual execution</i>
+async.series([
+    createDB,
+    useDB,
+    createTable,
+    insertData,
+    selectData
+], function() {
+    console.log('Done!');
+});
+</pre>
+
+
+<p>Now that is much more elegant, and allows us to easily rearrange the order of the functions, or even add new ones in between. But there still seems to be lots of repetition. Could we make it even more streamlined?</p>

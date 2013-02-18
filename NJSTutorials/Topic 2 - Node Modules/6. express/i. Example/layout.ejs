@@ -1,0 +1,22 @@
+<h1 class='h1'>express Example</h1>
+<ul>
+<li>Here is a rewrite of our first webserver example, using express, which outputs &quot;Hello World&quot; when it receives a HTTP connection;
+<pre class='code-highlight'>
+<i>var</i> app = require(<span>'express'</span>).createServer();  
+app.get(<span>'/'</span>, <i>function</i>(req, res){   
+	res.send(<span>'hello world'</span>); 
+	});  
+app.listen(<span>1337</span>);
+</pre>
+<li>express uses HTTP verbs in it's API (ie. app.get(), app.post(), app.all())
+<li>The first parameter in the app.get() function ('/' in the code example above) is the path. If we had made it '/page/' instead, the user would need to navigate to 'http://localhost:1337/page/' to see the 'hello world' message.
+<li>You can catch values in the path using named placeholders. For example;
+<pre class='code-highlight'>
+<i>var</i> app = require(<span>'express'</span>).createServer(); 
+app.get(<span>'/user/:id'</span>, <i>function</i>(req, res){
+        res.send(<span>'hello user ' + req.params.id</span>);
+        });
+app.listen(<span>1337</span>);
+</pre>
+<li>The values are then available as req.params. In the above case, navigating the browser to the address 'http://localhost:1337/user/5' fills an 'id' variable in req.params with '5'.
+</ul>

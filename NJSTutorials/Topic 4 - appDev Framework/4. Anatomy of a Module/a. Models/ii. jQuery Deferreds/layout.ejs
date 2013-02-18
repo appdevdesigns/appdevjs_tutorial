@@ -1,0 +1,43 @@
+<h1>Models - Client Usage</h1>
+
+<h2>jQuery Deferreds</h2>
+<p>Each of these methods (.findAll(), findOne(), .create(), .delete(), .update()) also return a jQuery Deferred object. You can then use the jQuery deferred system to respond to the actions instead of providing a callback.</p>
+
+<p><pre>
+var viewerLookup = Viewer.findAll({});
+var addressCreate = Address.create({ address_label: 'newAddress' });
+
+// if both complete successfully:
+$.when(viewerLookup, addressLookup).done(function(vList, aData) {
+
+    // do something now that both have completed
+    for (var i=0; i&lt;vList.length; i++) {
+        vList[i].attr('address_id', aData.address_id);
+        vList[i].save();
+    }
+
+});
+
+// if one fails:
+$.when(viewerLookup, addressLookup).fail(function() {
+    // something went wrong
+    if (viewerLookup.isRejected()) { ... }
+    if (addressCreate.isRejected()) { ... }
+}); 
+</pre></p>
+
+<p>If you include both a callback and use the deferred, the callback will be performed before the deferred is triggered.
+<pre>
+var viewerLookup = Viewer.findAll({}, function(vList) {
+    alert("You will see this alert first.");
+});
+var addressLookup = Address.create({ address_label: 'newAddress' });
+
+$.when(viewerLookup, addressLookup).done(function(vList, aData) {
+    // do something now that both have completed
+    alert("You will see this alert second.");
+});
+</pre></p>
+
+<p>Read the jQuery documentation for more examples of how to use this feature: <br/>
+<a href="http://api.jquery.com/category/deferred-object/" target="_blank">http://api.jquery.com/category/deferred-object/</a></p>

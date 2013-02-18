@@ -1,0 +1,22 @@
+<h1 class='h1'>mysql Exercise</h1>
+
+<p>Now let's try doing a sequence of SQL queries. See if you can write a Node.js script that executes the following queries:</p>
+
+<pre class="code-highlight">
+    CREATE DATABASE nodejs;
+    
+    USE nodejs;
+    
+    CREATE TABLE test (
+      test_id int(11) NOT NULL AUTO_INCREMENT,
+      test_title TEXT,
+      test_value int(11) NOT NULL DEFAULT 0,
+      PRIMARY KEY (test_id)
+    ) ENGINE=MyISAM;
+    
+    INSERT INTO test (test_title, test_value) VALUES ('foo', 123), ('bar', 456);
+    
+    SELECT * FROM test;
+</pre>
+
+<p>Give it a try, then go on to <b>3.ii.</b> when you are finished. Remember that the <i>mysql.query()</i> function is asynchronous.</p>

@@ -1,0 +1,40 @@
+<h1>Authentication</h1>
+
+<h2>The Viewer Account</h2>
+<p>To access content or services from AppDev, you must first have a Viewer account. The admin account you created during installation is the first such account on your AppDev site.</p>
+
+<h2>Local</h2>
+<p>The basic authentication method is through the local database. Viewer accounts are stored in the <i>site_viewer</i> table. The main fields are:
+    <dl>
+        <dt>viewer_userID</dt>
+            <dd> This is the user's account name.  It is what is typed in on the login screen.</dd>
+        <dt>viewer_globalUserID</dt>
+            <dd>Under local authentication, this field serves as a globally unique value. Many times it is the same as the viewer_userID. It is this value that is used to link a viewer to many of the applications running under AppDev. </dd>
+    
+        <dt>viewer_passWord</dt>
+            <dd>This is an MD5 hash of the password. In theory, MD5 is a one way hash, so the original key cannot be decrypted from it. (Weak passwords can still be discovered through dictionary brute force or hash table lookups.) After you type your password at the login screen, it too is hashed, and then compared with the value in the database.</dd>
+    </dl>
+</p>
+
+<h2>CAS</h2>
+<p>This stands for Central Authentication Service. It allows you to use the same username and password to access all the participating sites. Each of these sites validates with a central CAS server. See <a href="http://www.jasig.org/cas" target="_blank">www.jasig.org/cas</a> for more information.</p>
+
+<p>Under CAS, we still use the <i>site_viewer</i> table to store accounts. However, there are important differences:
+    <dl>
+        <dt>viewer_globalUserID</dt>
+            <dd>
+                <p>Here, this is <b>not</b> the same thing as the username. The username is what you type in at the login screen. But the global userID, or GUID, is a unique and permanent key only used internally by the system. The GUID is sometimes derived from the username, but it is also possible for it to be a string of seemingly random characters that have no resemblance to the username.</p>
+                <p>The reason for this is to allow for changes to your CAS username. (For instance, if we had a network where everyone used their email address as their usernames, the username would need to change if someone switched email service providers.) With the GUID, the username can be changed on the main CAS server, without needing to also update any of the individual sites.</p>
+            </dd>
+            
+        <dt>viewer_userID</dt>
+            <dd>This field is not used under CAS. However, it can be used to store a copy of the CAS username (username != GUID) for informational purposes.</dd>
+
+        <dt>viewer_passWord</dt>
+            <dd>This field is not used under CAS. The site itself will never need to know the password because the user enters it directly at the CAS login screen instead.</dd>
+    </dl>
+</p>
+
+
+<h2>Switcheroo</h2>
+<p>appDev has a built in feature for allowing privileged users to masquerade as other users. This is intended for enabling developers and administrators to debug problems reported by other users.</p>

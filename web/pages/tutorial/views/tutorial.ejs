@@ -1,0 +1,217 @@
+<style type="text/css">
+body {
+    padding: 0;
+    font-family: helvetica, sans-serif, arial, tahoma;
+    background: #353129;
+	font-size: 10pt;
+	margin: 0 2em 5em 2em;
+	color: #eee;
+}
+div.navbar {
+    float: left;
+    position: fixed;
+    margin: 0 0 0 0;
+    left: 0;
+    width: 16em;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 10pt;
+    line-height: 150%;
+    border-right: 1px solid white;
+    max-height: 90%;
+    overflow: auto;
+}
+div.navbar a {
+    white-space: nowrap;
+}
+div.main {
+    margin: 2em 0 0 14em;
+    padding-left: 2em;
+    height: inherit;
+    overflow: auto;
+}
+#tutorialMain {
+    padding: 1em;
+}
+div.main-title {
+    text-align: center;
+    color: white;
+    font-size: 14pt;
+    line-height: 150%;
+}
+.links {
+    border-bottom: 1px solid white;
+    height: 2em;
+}
+a {
+	color: #8BC84B;
+	text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+.links a {
+    display: block;
+    margin: .5em;
+}
+.links .prev {
+    float: left;
+}
+.links .next {
+    float: right;
+}
+.clear {
+    float: none;
+    clear: both;
+    height: 1px;
+}
+
+/* styles for the tutorial content */
+#tutorialMain h1,
+#tutorialMain h2,
+#tutorialMain h3,
+#tutorialMain h4 {
+color: #D2D8BA;
+}
+#tutorialMain p {
+    padding-left: 1em;
+}
+#tutorialMain dl {
+    margin-left: 1em;
+}
+#tutorialMain dt {
+    margin-top: 1em;
+    font-weight: bold;
+}
+#tutorialMain li {
+    margin-bottom:1em;
+}
+#tutorialMain li ul {
+    margin-top:1em;
+}
+#tutorialMain dd {
+    margin-top: .5em;
+}
+#tutorialMain samp {
+    padding-left: .5em;
+    padding-right: .5em;
+    white-space: nowrap;
+    font-family: Monaco, 'Andale Mono', 'Lucida Console', 'Bitstream Vera Sans Mono', 'Courier New', monospace, serif;
+}
+#tutorialMain kbd {
+    margin-left: 1em;
+    display: inline-block;
+}
+#tutorialMain pre {
+    margin-left: 1em;
+    font-family: Monaco, 'Andale Mono', 'Lucida Console', 'Bitstream Vera Sans Mono', 'Courier New', monospace, serif;
+}
+#tutorialMain pre em,
+#tutorialMain pre i,
+#tutorialMain samp em,
+#tutorialMain samp i {
+    color: #cCECdC;
+}
+/* mouseover a list item to view the caption */
+    .module-hierarchy li.has-more  {
+        border-bottom: dotted black 1px;
+        cursor: pointer;
+    }
+    .module-hierarchy li div.caption {
+        display: none;
+    }
+    .module-hierarchy li:hover div.caption {
+        display: block;
+        border: dotted 1px #d96a18;
+        padding: 1em;
+        max-width: 28em;
+    }
+
+/* mouseover code examples to view explanatory captions */
+pre.code-explain {
+    position: relative;
+    display: block;
+    margin-left: 1em;
+}
+pre.code-explain span {
+    cursor: pointer;
+    border-left: solid blue 2px;
+}
+pre.code-explain span div.caption {
+    display: none;
+    border: dotted yellow 1px;
+    background: #c3ba2a;
+    color: black;
+    font-family: helvetica, sans-serif, arial;
+}
+pre.code-explain span:hover div.caption {
+    display: block;
+    position: absolute;
+    z-index: 10;
+    margin-top: -2em;
+    right: 10em;
+    width: 28em;
+    padding: 1em;
+    white-space: normal;
+}
+pre.code-explain span div.caption a {
+    color: darkblue;
+}
+pre.code-highlight {
+    position: relative;
+    display: block;
+    margin-left: 1em;
+    color: #D2D8BA;
+}
+pre.code-highlight span {
+    color: #8BC84B
+}
+</style>
+
+
+<div id="navBar" class="navbar">       
+    <% 
+    var showNavBar = function (navbar) {
+        html = '<table>';
+        
+        if (navbar.length) {
+            var baseLevels = navbar[0]['levels'];
+            for (var i=0; i<navbar.length; i++) {
+                var padding = navbar[i]['levels'] - baseLevels + 1;
+                html += '<tr><td style="padding-left: ';
+                html += padding + 'em;';
+                html += '">';
+                html += '<a href="#" vid="' + i + '">';
+                html += navbar[i]['name'];
+                html += '</a>';
+                html += '</td></tr>';
+            }
+        }
+
+        html += '</table>';
+        return html;
+    }
+    %>
+    <%- showNavBar(data.navlist) %>            
+</div>
+<div class="main">
+    <div class="main-title"><%= data.title %></div>
+    <div id='nextPrev' class="links">
+        <a vid="prev" class="prev" href="#">Previous</a>
+        <a vid="next" class="next" href="#">Next</a>
+        <div class="clear"></div>
+    </div>
+    <div id='tutorialMain' max_id='<%- data.navlist.length-1 %>'>
+        <%
+        var makeTutorialMain = function (navbar) {
+                    var html = '<div>';
+                    for (var i=0; i<navbar.length; i++) {
+                        html += '<div vid=' +i+' style="display: none">';
+                        html += navbar[i]['path'];
+                        html += '</div>';
+                    }
+                    html += '</div>';
+                    
+                    return html;
+                }
+        %>
+        <%- makeTutorialMain(data.navlist) %>
+    </div>         
+</div>

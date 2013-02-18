@@ -1,0 +1,33 @@
+<h1 class='h1'>next Example</h1>
+<ul><li>You can set the sequence of the functions to be executed by adding them in order to an array;
+<pre class='code-highlight'><i>var</i> mySequence = [
+    <span>authenticate_user, // authenticate the user
+    init_path,          // get the path from the GET data
+    scan_directory,    // scan the directory, add files to an array list
+    remove_files       // delete files</span>
+];
+
+app.all(<span>'/Removefiles', mySequence</span>, <i>function</i> (req, res, next) {
+    <span>// url: /svnRemove?path=[path]</span>
+    console.log(<span>'main'</span>);
+    res.send(<span>'.svn directories removed'</span>);
+});
+</pre><li>Within each function use the next() call to move control to the subsequent function in your sequence;
+<pre class='code-highlight'><i>var</i> init_path = <i>function</i>(req, res, next) {  
+        <i>var</i> startDir = '';
+        <span>// get the path out of the GET data</span>
+        if (typeof req.params[<span>'path'</span>] != <span>'undefined'</span>) {
+            startDir = req.params[<span>'path'</span>];
+        } else if (typeof req.query[<span>'path'</span>] != <span>'undefined'</span>) {
+            startDir = req.query[<span>'path'</span>];
+        }
+        if (startDir != <span>''</span>) { 
+            req.aRAD = {};
+            req.aRAD.path = startDir;
+            next(); 
+        } else {
+            console.log(<span>' error! no directory provided!'</span>);
+            res.end(<span>'error! no directory provided!'</span>);    
+            }
+  }
+</pre></ul>

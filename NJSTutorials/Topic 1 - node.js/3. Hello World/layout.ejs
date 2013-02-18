@@ -1,0 +1,72 @@
+<h1 class='h1'>Creating a Hello World Web Server in node.js</h1>
+<ul>
+    <li>In this example, we'll create a simple web server which returns &quot;Hello World&quot; upon receiving a HTTP connection;
+    <ul>
+        <li>Enter the following into a new text file;
+        <pre class='code-highlight'>
+        <i>var</i> http = require(<span>'http'</span>); 
+        http.createServer(function (req, res) {
+            res.writeHead(<span>200, {'Content-Type': 'text/plain'}</span>); 
+            res.end(<span>'Hello World\n'</span>); 
+        }).listen(<span>1337, "127.0.0.1"</span>);
+        console.log(<span>'Server running at http://127.0.0.1:1337/'</span>);</pre>
+        
+        <li>Save the file as &quot;helloworld.js&quot;
+        <li>Run <kbd>node helloworld.js</kbd> from your command line.
+        <li>Connect to &quot;http://localhost:1337&quot; on your browser to see the results.
+    </ul>
+
+</ul>
+
+
+<h2>Javascript is fun</h2>
+
+<p>When you pass in the callback function to `createServer()`, you are telling it to execute that function whenever it receives a connection. When the function terminates, node doesn't lock a thread or sleep while waiting for the next HTTP connection to occur.</p>
+
+<p>If you have not done much serious programming in Javascript before, the above example may seem a little strange. Two important concepts:
+<ul>
+    <li>Functions can be passed around in parameters just like any other data type.</li>
+    <li>You can create anonymous functions using the <pre>function() { ... }</pre> syntax.</li>
+</ul></p>
+
+<p>The same example can be written in longer form like so:
+<pre class="code-highlight">
+    <i>function callback(req, res)</i> {
+        res.writeHead(200, {<span>'Content-Type'</span>: <span>'text/plain'</span>});
+        res.write(<span>'Hello World\n'</span>);
+        res.end();
+    }
+
+    var http = require(<span>'http'</span>);
+    var server = http.createServer(callback);
+    server.listen(1337, <span>"127.0.0.1"</span>);
+    console.log(<span>'Server running at http://127.0.0.1:1337/'</span>);
+</pre>
+</p>
+
+<p>Or even:
+<pre class="code-highlight">
+    <i>var callback = function(req, res)</i> {
+        res.writeHead(200, {<span>'Content-Type'</span>: <span>'text/plain'</span>});
+        res.write(<span>'Hello World\n'</span>);
+        res.end();
+    }
+
+    var http = require(<span>'http'</span>);
+    var server = http.createServer(callback);
+    server.listen(1337, <span>"127.0.0.1"</span>);
+    console.log(<span>'Server running at http://127.0.0.1:1337/'</span>);
+</pre>
+</p>
+
+
+<h2 class='h2'>Some Important Points</h2>
+<ul>
+    <li>node uses javascript terminology and syntax on the server side</li>
+    <li>Use the <i>var</i> keyword to create new variables in the local scope.
+        <pre class="code-highlight"><i>var</i> http = require('http');</pre>
+    </li>
+    <li>Create variables without the <i>var</i> keyword to make them global.
+        <pre class="code-highlight">http = require('http');</pre>
+    </li>
+</ul>

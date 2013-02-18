@@ -1,0 +1,47 @@
+<h1>mysql Episode III</h1>
+
+<p>Let's try it now with the <i>forEachSeries()</i> function.</p>
+
+<pre class="code-highlight">
+async = require('async');
+mysql = require('mysql');
+db = mysql.createClient({
+    user: 'root',
+    password: 'super secret password',
+    host: '127.0.0.1',
+    port: '3306'
+});
+
+<i>// Define what SQL queries we will be executing</i>
+var queries = [
+    { sql: <span>"CREATE DATABASE nodejs"</span>, values: [] },
+    { sql: <span>"USE nodejs"</span>, values: [] },
+    { 
+        sql: <span>" \
+            CREATE TABLE test ( \
+              test_id int(11) NOT NULL AUTO_INCREMENT, \
+              test_title TEXT, \
+              test_value int(11) NOT NULL DEFAULT 0, \
+              PRIMARY KEY (test_id) \
+            ) ENGINE=MyISAM \    
+        "</span>,
+        values: [] 
+    },
+    { 
+        sql: <span>"INSERT INTO test (test_title, test_value) VALUES (?, ?), (?, ?)"</span>,
+        values: ['foo', 123, 'bar', 456]
+    },
+    { sql: <span>"SELECT * FROM test"</span>, values: [] }
+];
+
+<i>// Then execute them in sequence</i>
+async.forEachSeries(queries, function(q, callback) {
+    db.query(q['sql'], q['values'], function(err, results, fields) {
+        if (err) throw err;
+        callback && callback();
+    });
+});
+</pre>
+
+
+<p>This example works very well with <i>forEachSeries()</i> because each step does pretty much the same thing, except with a different SQL query.</p>

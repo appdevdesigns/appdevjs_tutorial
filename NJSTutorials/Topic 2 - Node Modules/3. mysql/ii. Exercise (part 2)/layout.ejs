@@ -1,0 +1,113 @@
+<h1 class='h1'>mysql Exercise (part 2)</h1>
+
+<p>How did it go? If you did it the usual asynchronous way with anonymous callback functions, things probably got a little bit messy since each query can only be done after the previous one has completed.</p>
+
+<h3>Nested anonymous callbacks</h3>
+
+<pre class="code-highlight">
+mysql = require('mysql');
+db = mysql.createClient({
+    user: 'root',
+    password: 'super secret password',
+    host: '127.0.0.1',
+    port: '3306'
+});
+
+var sql1 = "CREATE DATABASE nodejs";
+db.query(sql1, [], function(err, results, fields) {
+
+    var sql2 = "USE nodejs";
+    db.query(sql2, [], function(err, results, fields) {
+    
+        var sql3 = " \
+            CREATE TABLE test ( \
+              test_id int(11) NOT NULL AUTO_INCREMENT, \
+              test_title TEXT, \
+              test_value int(11) NOT NULL DEFAULT 0, \
+              PRIMARY KEY (test_id) \
+            ) ENGINE=MyISAM \
+        ";
+        db.query(sql3, [], function(err, results, fields) {
+            
+            var sql4;
+            sql4 += "INSERT INTO test (test_title, test_value) ";
+            sql4 += "VALUES (?, ?), (?, ?)";
+            var values = ['foo', 123, 'bar', 456];
+            db.query(sql4, values, function(err, results, fields) {
+                
+                var sql5 = "SELECT * FROM test";
+                db.query(sql5, [], function(err, results, fields) {
+                    console.log("Contents of `test` table:");
+                    console.log(results);
+                });
+
+            });
+            
+        });
+    
+    });
+
+});
+</pre>
+
+<p>Well that doesn't seem ideal. Maybe you're now wondering if asynchronous programming isn't such a good idea after all. Let's see if we can tidy it up a bit using named functions instead.</p>
+
+
+<h3>Named callbacks, less obviously nested</h3>
+
+
+
+<pre class="code-highlight">
+mysql = require('mysql');
+db = mysql.createClient({
+    user: 'root',
+    password: 'super secret password',
+    host: '127.0.0.1',
+    port: '3306'
+});
+
+function createDB() {
+    var sql1 = "CREATE DATABASE nodejs";
+    db.query(sql1, [], useDB);
+}
+
+function useDB(err, results, fields) {
+    var sql2 = "USE nodejs";
+    db.query(sql2, [], createTable);
+}
+
+function createTable(err, results, fields) {
+    var sql3 = " \
+        CREATE TABLE test ( \
+          test_id int(11) NOT NULL AUTO_INCREMENT, \
+          test_title TEXT, \
+          test_value int(11) NOT NULL DEFAULT 0, \
+          PRIMARY KEY (test_id) \
+        ) ENGINE=MyISAM \
+    ";
+    db.query(sql3, [], insertData);
+}
+
+function insertData(err, results, fields) {
+    var sql4;
+    sql4 += "INSERT INTO test (test_title, test_value) ";
+    sql4 += "VALUES (?, ?), (?, ?)";
+    var values = ['foo', 123, 'bar', 456];
+    db.query(sql4, values, selectData);
+}
+
+function selectData(err, results, fields) {
+    var sql5 = "SELECT * FROM test";
+    db.query(sql5, [], function(err, results, fields) {
+        console.log("Contents of `test` table:");
+        console.log(results);
+    });
+}
+
+<i>// Actual execution</i>
+createDB();
+
+</pre>
+
+<p>I guess that is sort of an improvement. It doesn't go crazy with nested indentation at least. But there's got to be a better way, right? Go on to the next section to find out.</p>
+

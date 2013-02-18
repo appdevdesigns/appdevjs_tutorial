@@ -1,0 +1,101 @@
+<h1>Interfaces</h1>
+
+<p>An interface is a unique view into an application (module). Usually an interface represents a unique web page that can contain a number of widgets and javascript objects.</p>
+
+<h2>File Layout</h2>
+<ul class="module-hierarchy">
+    <li>appDev/</li>
+    <ul>
+        <li>modules/</li>
+        <ul>
+            <li>HRIS/</li>
+            <ul>
+                <li>interfaces/</li>
+                <ul>
+                    <li>wizardNewUser/</li>
+                    <li class="has-more">portal/
+                        <div class="caption">
+                            <p>The interface directory.</p>
+                            <p>Note that each interface is contained in its own directory.</p>
+                        </div>
+                    </li>
+                    <ul>
+                        <li class="has-more">node_portal.js
+                            <div class="caption">
+                                <p>The interface definition.</p>
+                                <p>Note that it is named <samp>node_<i>[interfaceName]</i>.js</samp></p>
+                            </div>
+                        </li>
+                        <li class="has-more">containers/
+                            <div class="caption">
+                                <p>All the interface's data can be compiled into a single javascript setup file, or broken down into smaller containers. Those containers are stored here.</p>
+                            </div>
+                        </li>
+                        <li class="has-more">scripts/
+                            <div class="caption">
+                                <p>All the necessary client side javascripts needed for the interface's operation.</p>
+                                <p>The RADTool will generate 2 script files by default:
+                                    <dl>
+                                        <dt><i>[interfaceName]</i>RAD.js</dt>
+                                            <dd>This file will be automatically generated from the RAD tool. It will make sure all the dependencies are loaded and any initial setup operations are called before the programmer defined setup routine is called in <i>[interfaceName]</i>.js</dd>
+                                        <dt><i>[interfaceName]</i>.js</dt>
+                                            <dd>This file is where the developer will place all their javascript setup routines for the client application.</dd>
+                                    </dl>
+                                </p>
+                            </div>
+                        </li>
+                        <ul>
+                            <li>portal.js</li>
+                            <li>portalRAD.js</li>
+                        </ul>
+                        <li class="has-more">views/
+                            <div class="caption">
+                                <p>The initial page load will return the base HTML data that will be necessary to display the page (and for the javascript operations defined in the <samp><i>[interfaceName]</i>.js</samp> page to operate on). That data is contained in javascript templates located in this directory.</p>
+                                <p>The initial javascript template to produce the HTML for the current interface is named <samp><i>[interfaceName]</i>.ejs</samp></p>
+                                <p>(ejs == embedded javascript)</p>
+                            </div>
+                        </li>
+                        <li class="has-more">services/
+                            <div class="caption">
+                                <p>if there are any <b>server side</b> actions that don't fall into the basic model CRUD actions, you can create them here</p>
+                            </div>
+                        </li>
+                        <ul>
+                            <li>node_<i>[serviceName]</i>.js</li>
+                        </ul>
+                    </ul>
+                </ul>
+            </ul>
+        </ul>
+    </ul>
+</ul>
+
+
+
+<h2>Standard Interface URL Routes</h2>
+<p>
+    <dl>
+        <dt>[mN]</dt>
+            <dd>module name</dd>
+        <dt>[iN]</dt>
+            <dd>interface name</dd>
+    </dl>
+</p>
+
+<p>There route paths are the URLs to be typed into browser or used internally by an Ajax request.</p>
+
+<p>
+    <dl>
+        <dt>page display URL</dt>
+            <dd><samp>/page/[mN]/[iN]</samp></dd>
+            
+        <dt>dependency definition</dt>
+            <dd><samp>/init/[mN]/[iN]/[iN].js</samp></dd>
+            
+        <dt>label information</dt>
+            <dd><samp>/labels/[mN]/[iN]/labels.js</samp></dd>
+        
+        <dt>URL for a service</dt>
+            <dd><samp>/service/[mN][iN]/[serviceName]</samp</dd>
+    </dl>
+</p>

@@ -1,0 +1,29 @@
+<h1 class='h1'>Built-in Libraries</h1>
+
+<p>In the previous example, you may remember this line of code:
+<pre class="code-highlight">
+    var http = require(<span>'http'</span>);
+</pre>
+</p>
+
+<p><i>http</i> is one of the many built-in libraries in Node. These are also known as modules. Chances are, you will need to use several of these modules to build your application.</p>
+
+<p>The syntax for including a module is similar to that in PHP. The `require` function call will execute whatever Javascript script file is specified. Additionally, the included script can return an object containing functions or attributes. The default location for included scripts or modules is in the `node_modules` subdirectory of your application. However, the core modules (a.k.a. built-in libraries) won't be found there because they have been compiled into Node.js itself.<p>
+
+<p>Other useful built-in libraries include:
+<ul>
+    <li>File System access (<i>fs</i>)</li>
+    <li>File Path handling (<i>path</i>)</i>
+    <li>Query String handling (<i>querystring</i>)</li>
+    <li>low level Network access (<i>net</i>)</i>
+</ul></p>
+
+<p>See <a href="http://nodejs.org/docs/latest/api/" target="_blank">http://nodejs.org/docs/latest/api/</a> for the full list. There are also many 3rd party modules available. We will cover some of them in Topic 2.</p>
+
+<p>And of course, the basic Javascipt functions and classes that you would normally use for programming in the client side web browser are also available on the server side in Node. <i>setTimeout()</i>, <i>console.log()</i>, <i>String.toLowerCase()</i>, <i>Array.indexOf()</i>, and so on.</p>
+
+<p>Note that functions for accessing the DOM are not available by default in Node. In a <b>web browser</b>, the <i>window</i> object is globally available, and with it comes the <i>document</i> object and methods like <i>document.write()</i> and <i>document.getElementById()</i>. These are <b>not</b> part of Node because there is no DOM to access on the server side. You can, however, install a 3rd party module that gives you these abilities. But let's not get into that now.</p>
+
+<p>Next, let's take a slightly closer look at the File System module. Navigate to section <b>Topic 1 - 4.i.</b> on the left sidebar.</p>
+
+

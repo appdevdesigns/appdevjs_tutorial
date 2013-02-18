@@ -1,0 +1,25 @@
+<h1 class='h1'>File System Library Example</h1>
+
+<p>Using fs.readdirSync() to print a list of the entries in a directory.</p>
+
+<p><pre class='code-highlight'>
+    <i>var</i> fs = require(<span>'fs'</span>); 
+    <i>var</i> files = fs.readdirSync(<span>'/tmp'</span>);
+    for (<span>var i=0; i&lt;files.length; i++</span>) {
+       console.log(<span>files[i]</span>);
+    }
+</pre></p>
+
+<p>Try running the above program. It is a straight forward case of getting a listing of files from a given directory.</p>
+
+<p>Then, try changing `readdirSync()` into just `readdir()`, and see what happens.</p>
+
+<p><pre class='code-highlight'>
+    <i>var</i> fs = require(<span>'fs'</span>); 
+    <i>var</i> files = fs.readdir(<span>'/tmp'</span>);
+    for (<span>var i=0; i&lt;files.length; i++</span>) {
+	   console.log(<span>files[i]</span>);
+    }
+</pre></p>
+
+<p>Did you try running that? What's going on here?</p>

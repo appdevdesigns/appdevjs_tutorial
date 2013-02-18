@@ -1,0 +1,76 @@
+<h1>Installation</h1>
+
+<h2>Checking Out the Code</h2>
+
+<p>Check out a copy of the appDev framework from github at <samp>https://github.com/appdevdesigns/appdev.git</samp>
+
+
+<h2>Requirements</h2>
+
+<p>Before you can install appDev, your computer must have:
+<ul>
+    <li>node.js</li>
+    <li>
+        MySQL
+        <ul>
+            <li>mysql</li>
+            <li>mysqldump</li>
+        </ul>
+    </li>
+    <li>a database user account</li>
+    <li>
+        a new empty database
+        <ul>
+            <li><samp>CREATE DATABASE <em>appdev</em>;</samp></li>
+        </ul>
+    </li>
+</ul>
+
+<p>Eventually we should have support for other types of databases, such as Oracle, PostgreSQL, and MS SQL. But for now, just use MySQL.</p>
+
+<h2>Running the Installer</h2>
+
+<p>Once you have all the files on your machine, use the command line to run the installer. There is a simple bash script for doing this. It will automatically install several node modules via <em>npm</em>, and launch the main appDev server once installation is completed. Start from your appDev base directory.</p>
+<p><kbd>
+cd install<br/>
+./install.sh
+</kbd></p>
+
+<p>The install server will now be running, and listening for connections on port 8088. Start your browser, and go to: <nobr><samp>http://localhost:8088/appDevInstall</samp></nobr>. There will be a nice GUI wizard for you to enter your configuration settings.</p>
+
+<img src="<%= tutorialPath %>/installer.png" />
+
+<p>When you see the <b>Done</b> button, you are at the end of the wizard. Click on the button to submit the settings to the server. If all goes well, it will redirect your browser to the login screen after a few seconds.</p>
+
+<p>After installation, the settings that you specified in the wizard will be saved in <samp>appDev/node_modules/defaults.js</samp>.
+
+<hr/>
+
+<h2>The Hard Way</h2>
+<p>If you want to do the installation without the bash script (and you will need to if you're using Windows), this is how:</p>
+<p><kbd>
+cd install<br/>
+node app_install.js
+</kbd></p>
+
+<p>Run the installation wizard as described earlier. Then when the installation is completed, do:</p>
+<p><kbd>
+cd ..<br/>
+npm install ansi-color<br/>
+npm install ejs<br/>
+npm install express@2.5.9<br/>
+npm install socket.io@0.9.0<br/>
+npm install mysql<br/>
+npm install faye<br/>
+npm install jsdom<br/>
+npm install jquery-deferred<br/>
+npm install temp<br/>
+npm install eventemitter2<br/>
+npm install async<br/>
+npm install nodeunit<br/>
+node app.js<br/>
+</kbd></p>
+
+<p>(Note: certain modules may require additional tweaking to get working under Windows)</p>
+
+<p>Finally, type the new appDev address into the browser URL bar: <nobr><samp>http://localhost:8088/page/site/componentManager</samp></nobr></p>

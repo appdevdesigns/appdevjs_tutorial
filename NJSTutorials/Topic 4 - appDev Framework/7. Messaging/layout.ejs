@@ -1,0 +1,86 @@
+<h1>Messaging</h1>
+
+<p>appDev provides a machanism for realtime messaging between Server/Client, Client/Server, and Client/Client communications.</p>
+
+
+<h2>Server -> Client / PUSH</h2>
+
+<p>An example of this implementation would be a widget on the client getting realtime updates from the server. Such as a poll widget being updated in realtime with changes from the submissions of other polls.</p>
+
+<dl>
+    <dt>Server:</dt>
+        <dd>Server side modules can create 'clients' that publish messages to <samp><i>[module]</i>/out</samp> in order to push messages to the clients.</dd>
+        
+    <dt>Client:</dt>
+        <dd>Client side scripts establish a subscription to <samp><i>[module]</i>/out</samp> in order to receive the messages.</dd>
+</dl>
+
+
+<h2>Client -> Server / PULL</h2>
+
+<p>This type of communication is typically handled via AJAX calls. However, we can also establish a live comm link to handle the server side updates as well.</p>
+
+<dl>
+    <dt>Server:</dt>
+        <dd>Server side modules can create 'clients' that subscribe to channel <samp><i>[module]</i>/in</samp> in order to receive data from the clients.</dd>
+        
+    <dt>Client:</dt>
+        <dd>Client side scripts create clients to publish messages to <samp><i>[module]</i>/in</samp></dd>
+</dl>
+
+
+<h2>Client -> Client / CHAT</h2>
+
+<p>This is for widgets that want to communicate directly between different client browsers.</p>
+
+<p>For example, a chat app that displays live conversations in different browsers.</p>
+
+<dl>
+    <dt>Server:</dt>
+        <dd>nothing to do here...</dd>
+        
+    <dt>Client:</dt>
+        <dd>Clients subscribe to <samp><i>[module]</i>/chat</samp> or <samp><i>[widget]</i>/chat</samp> or <samp><i>[widget]</i>/chat/<i>[id]</i></samp></dd>
+</dl>
+
+
+<h2>Implementation</h2>
+
+<p>We use the faye server protocol to handle the communications mechanism.</p>
+
+<p>(see <a href="http://faye.jcoglan.com/" target="_blank">http://faye.jcoglan.com/</a>)</p>
+
+
+<h3>Server:</h3>
+<p>We create a faye server encapsulated in a global object: <samp>SiteDispatch</samp>:
+<pre>
+    SiteDispatch.publish(channel, data);
+    var subscription = 
+        SiteDispatch.subscribe(channel,
+        function(message) { ... });
+</pre></p>
+
+<p>Modules/interfaces/widgets create their subscriptions:
+<pre>
+    var HRISin = 
+        SiteDispatch.subscribe('HRIS/in',
+        function(message) { ... });
+</pre></p>
+
+<p>Modules/interfaces/widgets publish messages:
+<pre>
+    SiteDispatch.publish('HRIS/out', {
+        data: 'something',
+        status: 'accepted' });
+</pre></p>
+
+
+<h3>Client:</h3>
+<p>On the client this mechanism is replicated in the <samp>AD.Comm.Dispatch</samp> object:
+<pre>
+    AD.Comm.Dispatch.publish(channel, data);
+    var subscription =
+        AD.Comm.Dispatch.subscribe(channel,
+        function(message) { ... });
+</pre></p>
+

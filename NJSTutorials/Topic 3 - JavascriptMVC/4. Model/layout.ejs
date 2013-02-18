@@ -1,0 +1,45 @@
+<h1 class='h1'>JavascriptMVC Model</h1>
+<ul>
+<li>JavascriptMVC's Model layer makes it easy to connect to REST services in order to perform Create/Retrieve/Update/Destroy (CRUD) operations (you might be more used to calling CRUD Insert/Select/Update/Delete).
+<pre class='code-highlight'>
+$.Model(<span>'Widget'</span>,{
+  create:  <span>'/widgets/create',      // Create</span>
+  findAll: <span>'/widgets/findall',     // Retrieve All Items</span>
+  findOne: <span>'/widgets/findone/{id}', // Retrieve Single Item</span>
+  update:  <span>'/widgets/update/{id}',  // Update</span>
+  destroy: <span>'/widgets/delete/{id}'	// Destroy </span>
+});
+</pre>
+<li>The example code above shows how the Model for a widget object might look on the client side
+<li>We can now create a new widget instance on the server;
+<ul>
+<pre class='code-highlight'>
+<i>var</i> widget = new Widget();
+widget.save();  <span>// <- creates a new instance</span>
+widget.attr('name', 'Yao Ming');  <span>// or widget.name = 'Yao Ming'; </span>
+widget.save();  <span>// <- updates the data</span>
+</pre>
+</ul>
+<li>And perform an operation like retrieving all the widgets on the server;
+<ul>
+<pre class='code-highlight'>
+Widget.findAll({}, <i>function</i>(<span> listWidgets</span> ){ <span>// Note it's a static function</span>
+    for (var i=0; i< listWidgets.length; i++) {
+        <span>// do something with all the widgets we get from the server</span>
+        listWidgets[i].doSomething();
+        listWidgets[i].name = 'Yao Ming';
+        listWidgets[i].save();  <span>// <- updates the data in the DB</span>
+    }
+  });
+</pre>
+</ul>
+<li>On the server side, you'll have used the express functionality you acquired earlier in the tutorial to catch the routes. For example;
+<ul>
+<pre class='code-highlight'>
+app.get(<span>'/widgets/findall'</span>, <i>function</i>(req, res, next) {
+  <span>// SELECT all widgets from some datastore</span>
+  });
+</pre>
+</ul>
+<li>Additional documentation for JavascriptMVC's Model layer can be found at;
+<ul><li><a href='http://javascriptmvc.com/docs.html#!mvc.model'>http://javascriptmvc.com/docs.html#!mvc.model</a></ul>

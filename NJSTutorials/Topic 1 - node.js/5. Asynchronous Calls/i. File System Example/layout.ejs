@@ -1,0 +1,36 @@
+<h1 class='h1'>File System Library Asynchronous Example</h1>
+<ul>
+<li>If we only make asynchronous function calls in our node programs, we are presented with a problem; what if an operation needs to know the result of a previous operation before starting? For example;<ul><li>What if we want to output a list of sub-directories in a directory without listing the files. <li>To do this;
+<ul>
+<li>We first need a list of the top level directory's contents 
+<li>Second, we need to test each of the content entries to determine if the entry is a file or a sub-directory.
+<li>If it's a sub-directory, we output the name of the directory to the console.</ul></ul>
+<li>Here is how the code to do the above task would look like in node;
+<pre class='code-highlight'>
+<i>var</i> fs = require(<span>'fs'</span>);
+fs.readdir(<span>directory_path</span>, <i>function</i>(err, files) {
+    if (<span>err</span>) {
+        <span>//do error handling</span>
+    } else {
+        for (<span>var i=0; i&lt;files.length; i++</span>) {
+            <span>//create a new function to provide closure</span>
+            var fsStat = <i>function</i>(index, fName) {
+                fs.stat(<span>fName</span>, <i>function</i>(err, stats) {
+                    if (<span>err</span>) {
+                        <span>//do error handling</span>
+                    } else {
+                        if (<span>stats.isDirectory()</span>)
+                            console.log(<span>fName</span>);
+                    }
+                });
+            };
+            fsStat(<span>i, files[i]</span>);
+        }
+    }
+});
+</pre></ul>
+
+<h2 class='h2'>Some Important Points</h2><ul>
+<li>The for loop with fs.stat() requires the results of fs.readdir() to run so it must be placed in the callback function of fs.readdir().
+<li>It's easy to write complicated and confusing code with multiple nested asynchronous callback functions. We'll be discussing a way to handle this later using a 3rd party library. 
+</ul>

@@ -1,0 +1,135 @@
+<h1>Models - Client Usage</h1>
+
+<p>In order to make our developers' lives easier we want to push more of our application logic onto the client (where it is easier to debug using FireBug), and keep the server side logic focused on data validation and simpler data storage operations.</p>
+
+<h2>Client Side Model Usage</h2>
+<p>Move the mouse over the code to see a caption that explains it.</p>
+
+
+<h3>Defining a new model</h3>
+<p><pre class="code-explain">
+AD.Model.extend("Viewer",
+    {
+        <span>_adModule: 'site', <div class="caption">the server module</div></span>
+        <span>_adModel: 'Viewer', <div class="caption">the server model</div></span>
+        <span>id: 'viewer_id', <div class="caption">the primary key field</div></span>
+        <span>labelKey: 'viewer_guid', <div class="caption">the default field to show when a row is displayed</div></span>
+        <span>_isMultilingual: false <div class="caption">is this a multilingual table?</div></span>
+    },
+    {});
+</pre></p>
+
+<p>This creates a new class named <samp>Viewer</samp>, that can be referenced in Javascript.</p>
+
+
+<h3>Using the model</h3>
+<p><pre class="code-explain">
+<span>var skipper = new Viewer({ viewer_guid: 'skipper' });
+    <div class="caption">create a new (client only) instance of a viewer</div></span>
+<span>skipper.save();
+    <div class="caption">save this to the server (DB), creating a new row</div></span>
+<span>skipper.attr('viewer_guid', 'skipp3r');
+    <div class="caption">update a field value on the client instance</div></span>
+<span>var guid = skipper.attr('viewer_guid');
+    <div class="caption">get the field value from the client instance</div></span>
+<span>skipper.save();
+    <div class="caption">save the changes from the client instance onto the server (update)</div></span>
+<span>skipper.destroy();
+    <div class="caption">delete the server entry that matches this client instance</div></span>
+
+<span>Viewer.findAll({}, function(data) {
+
+    for (var i=0; i <= data.length; i++) {
+        var curViewer = data[i];
+        curViewer.attr('viewer_isactive', true);
+        curViewer.save();
+    }
+    
+});<div class="caption">request a list of all Viewers in the server side data store<p>NOTE: returned data is an array of Viewer instances with their data set from the server.</div></span>
+
+</pre></p>
+
+<h3>Searching for entries</h3>
+
+<h4>use findAll() for multiple entries</h4>
+<p>
+    <dl>
+        <dt><samp>.findAll(params, callback)</samp></dt>
+            <dd>params: an object of key=>value pairs, each pair becomes a seach condition to filter data by.</dd>
+        <dt><samp>.findAll({ viewer_isactive: true }, function(data){ ... });</samp></dt>
+            <dd>returns all entries that have viewer_isactive == true</dd>
+        <dt><pre>.findAll({
+        viewer_isactive: true,
+        viewer_favoritecolor: 'blue'
+    }, function() {});</pre></dt>
+            <dd>returns all entries where viewer_isactive == true AND viewer_favoritecolor == 'blue'</dd>
+    </dl>
+</p>
+        
+
+<h4>use the <i>dbCond</i> param key for more complex lookups</h4>
+<p><dl>
+    <dt><samp>.findAll({dbCond="viewer_isactive=true OR (viewer_favoritecolor='red' AND viewer_lastlogin>'1970-01-01')"}, callback);</samp></dt>
+        <dd>the dbCond field will be picked up by the server side model and used as an SQL condition.</dd>
+</dl></p>
+
+<h4>use findOne() for a single entry</h4>
+<p><dl>
+    <dt><samp>.findOne({viewer_id: 5}, callback)</samp></dt>
+        <dd>params: needs to have the primary key param set to a value. <samp>findOne()</samp> looks up by primary key value only.</dd>
+</dl></p>
+
+
+<h4>Creating a new DB entry</h4>
+<p><dl>
+    <dt><samp>.create(params, callbackSuccess, callbackError)</samp></dt>
+        <dd>params: an object of key=>value pairs that contains all the initial data for the new entry</dd>
+    <dt><pre>.create({
+    viewer_guid: 'skipper',
+    viewer_isactive: true,
+    viewer_favoritecolor: 'blue'
+    } function(data) {} );</pre></dt>
+        <dd>Note: the returned data is<samp>{ primaryKeyField: <i>[primaryKeyValue]</i> }</samp></dd>
+</dl></p>
+
+<h4>Updating a DB entry</h4>
+<p><dl>
+    <dt><samp>.update(id, params, callbackSuccess, callbackError)</samp></dt>
+        <dd>id: (integer) the actual primary key value</dd>
+        <dd>params: an object of key=>value pairs that contain the data to update for this entry. Only the fields provided will be changed.</dd>
+    <dt><pre>.update(1, {
+    viewer_guid: 'skipp3r',
+    viewer_favoritecolor: 'blue',
+    } function(data) {}, function() {} );</pre></dt>
+        <dd>Note: returned data is <samp>{ }</samp></dd>
+        <dd>Note: must send primaryKey value as id here. A condition string will not work (unlike with Deleting).</dd>
+</dl></p>
+
+<h4>Deleting a DB entry</h4>
+<p><dl>
+    <dt><samp>.destroy(id, callbackSuccess, callbackError)</samp></dt>
+        <dd>id: (integer) the actual primary key value</dd>
+        <dd>Note: the returned data is <samp>{ }</samp></dd>
+    <dt><samp>.destroy(1, function(data) {...}, function() {} )</samp></dt>
+    <dt><samp>.destroy("viewer_isactive=true AND viewer_lastlogin<'2009-01-01'", function(data) {...}, callbackError)</samp></dt>
+        <dd>id: (string) if you need a more complex delete then send the SQL condition string as the id</dd>
+</dl></p>
+
+
+
+<h3>Note: Instance methods vs Class methods</h3>
+
+<h4>These methods are available on each <b>instance</b> of a model</h4>
+<p>
+    <samp>.save()</samp><br/>
+    <samp>.destroy()</samp><br/>
+</p>
+
+<h4>These methods are available on each <b>class definition</b> of a model</h4>
+<p>
+    <samp>.findAll()</samp><br/>
+    <samp>.findOne()</samp><br/>
+    <samp>.create()</samp><br/>
+    <samp>.update()</samp><br/>
+    <samp>.destroy()</samp><br/>
+</p>

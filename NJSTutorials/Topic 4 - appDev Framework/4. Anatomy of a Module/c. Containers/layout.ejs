@@ -1,0 +1,71 @@
+<h1>Containers</h1>
+
+<p>When an interface is large and complex, it is often helpful to break it down into a series of "containers". Containers act as a group of javascript objects/resources to carry out a set of functionality on Page/Interface. Containers can themselves be broken down into sub containers.</p>
+
+<h2>File Layout</h2>
+
+<p>Containers follow the same layout guidelines as "Interfaces".</p>
+
+<ul class="module-hierarchy">
+    <li>appDev/</li>
+    <ul>
+        <li>modules/</li>
+        <ul>
+            <li>HRIS/</li>
+            <ul>
+                <li>interfaces/</li>
+                <ul>
+                    <li>portal/</li>
+                    <ul>
+                        <li>containers/</li>
+                        <ul>
+                            <li>fieldUserPortal/</li>
+                            <ul>
+                                <li class="has-more">node_fieldUserPortal.js
+                                    <div class="caption">container definition</div>
+                                </li>
+                                <li class="has-more">scripts/
+                                    <div class="caption">scripts directory</div>
+                                </li>
+                                <li class="has-more">views/
+                                    <div class="caption">views directory</div>
+                                </li>
+                                <li class="has-more">services/
+                                    <div class="caption">services directory</div>
+                                </li>
+                                <li class="has-more">containers/
+                                    <div class="caption">containers directory</div>
+                                </li>
+                                <ul>
+                                    <li>toolInfoUpdate/</li>
+                                </ul>
+                            </ul>
+                        </ul>
+                    </ul>
+                </ul>
+            </ul>
+        </ul>
+    </ul>
+</ul>
+
+
+<p>Containers are useful for creating unique widgets for an interface, dividing up an interface into logical parts, etc...</p>
+
+
+
+<h2>Container Services URL Routes</h2>
+
+<dl>
+    <dt>[mN]</dt>
+        <dd>module name</dd>
+    <dt>[iN]</dt>
+        <dd>interface name</dd>
+    <dt>[cN]</dt>
+        <dd>container name</dd>
+</dl>
+
+
+<dl>
+    <dt>URL for a service</dt>
+        <dd><samp>/service/[mN]/[iN]/[cN]/.../[serviceName]</samp></dd>
+</dl>

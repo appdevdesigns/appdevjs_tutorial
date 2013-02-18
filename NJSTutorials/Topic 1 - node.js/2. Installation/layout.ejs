@@ -1,0 +1,23 @@
+<h1 class='h1'>Installing node.js</h1>
+<p>Download the appropriate installer from this page (or compile it yourself);</p>
+
+<ul>
+    <li><a href='http://nodejs.org/#download'>http://nodejs.org/#download</a></li>
+    <li><kbd>tar -xzvf node-xxxx.tar.gz</kbd></li>
+    <li><kbd>cd node-xxxxx</kbd></li>
+    <li><kbd>./configure</kbd></li>
+    <li><kbd>make</kbd></li>
+    <li><kbd>sudo make install</kbd></li>
+</ul>
+
+<p>If you are installing Node.js on a Mac, it helps a lot if you have Xcode. (Get it from the App Store free if you don't already have that.)</p>
+
+<p>To install Node.js on a Linux server where you do not have root access, you will need to add an extra option to `configure`.
+    <ul>
+        <li><kbd>./configure --prefix=/home/{YOUR_USERNAME}/opt</kbd></li>
+        <li><kbd>make</kbd></li>
+        <li><kbd>make install</kbd></li>
+    </ul>
+</p>
+
+<p>Then add "~/opt/bin" to your PATH by editing ~/.bash_profile, and logout/login again.</p>

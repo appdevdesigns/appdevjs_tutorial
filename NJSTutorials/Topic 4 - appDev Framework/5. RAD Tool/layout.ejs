@@ -1,0 +1,55 @@
+<h1>RAD Tool</h1>
+
+<p>This is a tool for Rapid Application Development. Eventually there will be a full graphical user interface for building and maintaining modules within the appDev framework. But right now it exists only as a set of services.</p>
+
+<p>The RADTool itself is a separate module you can install into the appDev framework. It will be in <samp>appDev/modules/appRAD/</samp>. Check it out from github at: <samp>https://github.com/appdevdesigns/appdev_appRAD.git</samp>.</p>
+
+<h2>Create module</h2>
+<p>This service is designed to create a new module directory hierarchy.</p>
+<dl>
+    <dt>URL path</dt>
+        <dd><samp>/appRad/module/create</samp></dd>
+    <dt>GET parameters</dt>
+        <dd><samp>name=<i>X</i></samp>
+    <dt>Result:</dt>
+        <dd>Creates a new module named <i>X</i> in <samp>appDev/modules/<i>[X]</i>/</samp></dd>
+</dl>
+
+
+<h2>Create model</h2>
+<p>This service handles requests to generate new model definitions for an existing module.</p>
+<dl>
+    <dt>URL path</dt>
+        <dd><samp>/appRad/model/create</dt>
+    <dt>GET parameters</dt>
+        <dd><samp>tableName=<i>X</i>, module=<i>Y</i>, ModelName=<i>Z</i>, primaryKey=<i>K</i>, labelKey=<i>L</i></samp></dd>
+    <dt>Result:</dt>
+        <dd>Creates a new model from DB table <i>X</i> under application module <i>Y</i>.</dd>
+</dl>
+
+
+<h2>Create interface</h2>
+<p>This service creates a new interface directory heirarchy.</p>
+<dl>
+    <dt>URL path</dt>
+        <dd><samp>/appRad/interface/create</samp></dd>
+    <dt>GET parameters</dt>
+        <dd><samp>module=<i>M</i>, name=<i>X</i>
+    <dt>Result:</dt>
+        <dd>Creates a new interface named <i>X</i> in: <samp>/appDev/modules/<i>[M]</i>/interfaces/<i>[X]</i>/</dd>
+</dl>
+
+<h2>Export labels</h2>
+<p>This service takes all the labels of a module from the database and exports them as a gettext (.PO) file.</p>
+<dl>
+    <dt>URL path</dt>
+        <dd><samp>/appRad/labels/export</samp></dd>
+    <dt>GET parameters</dt>
+        <dd><samp>module=<i>M</i>, destLang=<i>X</i> [, srcLang=<i>Y</i>] [, fileDest=<i>Z</i>]</samp></dd>
+        <dd><samp>srcLang</samp> is optional. If not specified, the default site language will be assumed.</dd>
+        <dd><samp>fileDest</samp> is optional. If not specified, the default module labels directory will be assumed. This directory must be within the appDev framework hierarchy. If the given path is invalid, the default will be used instead.</dd>
+    <dt>Result:</dt>
+        <dd>Creates a new .po file in <samp>/appDev/modules/<i>[M]</i>/install/data/labels_<i>[X]</i>.po</dd>
+        <dd>or in the directory as specified by <i>Z</i></dd>
+</dl>
+

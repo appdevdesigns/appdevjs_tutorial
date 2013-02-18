@@ -1,0 +1,18 @@
+<h1 class="h1">In Sequence vs. Parallel</h1>
+
+<ul>
+    <li>Taking our asynchronous file system library example from <b>Topic 1 - 5.ii.</b> further; what if we wanted to create a site that does the following:<ul>
+            <li>Accept a connection</li>
+            <li>Authenticate the user</li>
+            <li>Take in a URL with a directory path in the GET data</li>
+            <li>Test each of the entries in the directory (asynchronously) to determine if that entry is a file or a sub-directory.</li>
+            <li>If it is a file, add the file path to an array list for use in the next step</li>
+            <li>After the directory and sub-directories have been scanned, delete all the files</li>
+            <li>After all the above steps are finished, output 'done' on the browser.</li>
+        </ul>
+    </li>
+    <li>In this example, say we want to use only asynchronous calls from the file system library to perform the above. But we only want to output 'done' after all the files are deleted.</li>
+    <li>We could solve this problem by nesting the asynchronous functions multiple levels deep. However, this would make the code difficult to debug and work on later.</li>
+    <li>And if you have been following this tutorial carefully, you'll know that the <i>async</i> module can do wonders for this type of situation. But right now we are going to look at yet another useful feature in the Node.js family.</li>
+    <li>A great solution is to use the Express library's <i>next()</i> function. You can use <i>next()</i> to execute several functions in sequence, just like with <i>async.series()</i>.</li>
+</ul>

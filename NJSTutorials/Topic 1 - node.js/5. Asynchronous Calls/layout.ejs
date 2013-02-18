@@ -1,0 +1,14 @@
+<h1 class='h1'>Asynchronous Calls</h1>
+
+
+<p>The preferred way of doing things in node.js is asynchronously; ie. node is informed when there is a result or return value, but does not wait around or block execution until the result arrives.</p>
+
+<p>Remeber that in Javascript, functions can be passed around like any other variable. So rather than return the result, an asynchronous function always takes a completion callback as its last argument, and it is through this callback function that the result is delivered.</p>
+
+<p>So now it should be clearer why in the previous example, we couldn't just exchange `readdir()` with `readdirSync()`.</p>
+
+<p>The arguments passed to the completion callback depend on the method, but the first argument is always reserved for an exception. 
+<ul><li>If the operation was completed successfully, then the first argument will be null or undefined.</li></ul>
+</p>
+
+<p>Now let's look at a `readdir()` example that actually works.</p>

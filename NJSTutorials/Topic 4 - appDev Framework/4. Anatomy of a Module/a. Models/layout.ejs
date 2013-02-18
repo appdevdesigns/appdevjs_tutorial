@@ -1,0 +1,113 @@
+<h1>Models</h1>
+
+<p>Models are objects that handle the data interactions with our back end data store. Our models are defined on both the server and the client. The client side models connect to the server side ones to do their job.<p>
+
+<h2>CRUD</h2>
+<p>This is an acronym for Create, Read, Update, Delete. [<a href="http://en.wikipedia.org/wiki/Create,_read,_update_and_delete" target="_blank">Wikipedia</a>]</p>
+
+
+<h2>Server Side Definitions</h2>
+
+<img src="<%= tutorialPath %>/model-server.png" style="float:right; margin: 1em;" />
+
+<p>Basically, a <b>DataStore</b> is the interface for the database. And the <b>DataManager</b> is the interface for the database tables.</p>
+
+<p>File layout: <samp>appDev/modules/<i>[Module]</i>/models/</samp></p>
+
+<p>The server side model definitions are placed in a module's <samp>models/</samp> directory as shown above. These objects are responsible for handling any incoming CRUD requests for their tables, and fulfilling them.</p>
+
+<p>A model is simply an instance of our framework <b>DataManager</b> object, with parameters that define the target data. That is, it contains a fields definition of the DB table that it manages.</p>
+
+<p>The <b>DataManager</b> object works through a framework supplied <b>DataStore</b> object to physically run the CRUD operations. Each type of backend DB (or data storage scheme) would have a DataStore that hadled the interactions with that system. For example: <samp>dataStore_MYSQL</samp> handles the operations to interface with a MySQL DB.</p>
+
+<p>The <b>DataStore</b> that is used by default is based on the options selected in the install process. This is indicated in <samp>appDev/node_modules/defaults.js</samp>.</p>
+
+<p><b>DataManager</b> objects manage individual DB tables. The base class object is defined in <samp>appDev/node_modules/dataManager.js</samp>.</p>
+
+<p><b>DataManagerMultilingual</b> objects manage our multilingual style tables. A multilingual table is really two tables combined together: one for storing traditional data, and the other for the language dependant data. The base class object is found in <samp>appDev/node_modules/dataManagerMultilingual.js</samp>.</p>
+
+<p><b>DataStore</b> objects are found in <samp>appDev/node_modules/dataStore/dataStore_<i>XXXX</i>.js</samp> where <i>XXXX</i> refers to the type of database it interfaces with. (Such as MySQL.)</p>
+
+
+
+<h2>Client Side Definitions</h2>
+
+
+<p>File layout: <samp>appDev/modules/<i>[Module]</i>/modles/</samp></p>
+
+<p>Notice that they use the same Model definition for both the client and the server. </p>
+
+<img src="<%= tutorialPath %>/model-client.png" style="float:right; margin: 1em;" />
+
+<p>On the client browser we also load up model objects that allow our applications to interact with the data stored on the server. We use the javascriptMVC framwork to provide us with the model object there.</p>
+
+<p>Our framework sublcasses the javascriptMVC object and creates an object that will use our own serviceModel to communicate with the server.</p>
+
+<p>For example:
+<pre style="clear: both;">
+    
+(function () {
+    var onServer = false;
+    if (typeof exports !== 'undefined') {
+        <span>// exports are defined on the server side node modules</span>
+        onServer = true;
+    } 
+
+    var attr = {
+        <span>// Client Definitions </span>
+        _adModule:'site',
+        _adModel:'Viewer',
+        id:'viewer_id',
+        labelKey:'viewer_userID',
+        _isMultilingual:false 
+    }
+
+    if (onServer) {
+        <span>// Server Definitions </span>
+        attr['__serverModel'] = {
+            type:'single',  <span>// 'single' | 'multilingual' </span>
+            dbTable:'site_viewer',
+            model: {
+                viewer_id:"int(11) unsigned",
+                language_key:"varchar(12)",
+                viewer_userID:"text",
+                viewer_passWord:"text",
+                viewer_isActive:"int(1)",
+                viewer_lastLogin:"datetime",
+                viewer_globalUserID:"text",
+
+            },
+            primaryKey:'viewer_id'
+        }
+    }
+
+    AD.Model.extend("site.Viewer",
+        attr,
+        {
+            <span>// define instance methods here.</span>
+        });
+
+    if (onServer) {
+        module.exports = AD.Model.List["site.Viewer"];
+    }
+
+})()
+
+</pre>
+This is explained later in the Model section.
+</p>
+
+<p>The appDev model object automatically generates the URLs for the CRUD operations for you based on our framework defined formats. These are the URLs that the client side models will use to interact with the server:
+<ul>
+    <li><b>Create:</b> <samp>/query/create/<i>[Module]</i>/<i>[ModelName]</i>.json</samp></li>
+    <li><b>Read:</b> <samp>/query/findall/<i>[Module]</i>/<i>[ModelName]</i>.json</samp></li>
+    <li><b>Read:</b> <samp>/query/findone/<i>[Module]</i>/<i>[ModelName]</i>/<i>[id]</i>.json</samp></li>
+    <li><b>Update:</b> <samp>/query/update/<i>[Module]</i>/<i>[ModelName]</i>/<i>[id]</i>.json</samp></li>
+    <li><b>Destroy:</b> <samp>/query/destroy/<i>[Module]</i>/<i>[ModelName]</i>/<i>[id]</i>.json</samp></li>
+</ul></p>
+
+<p>The <samp>.json</samp> at the end of each URL indicates that the data returned by the server will be in the JSON format.</p>
+
+<p>The main <samp>appDev/app.js</samp> program provides the URL handling routines to manage these default actions and pass them to the respective server side model objects.</p>
+
+

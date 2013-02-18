@@ -1,0 +1,53 @@
+<h1 class='h1'>node-mysql Library</h1>
+
+<p>Another useful 3rd party library is the node-mysql library. As you may have guessed it allows us to access a MySQL database in Node.js. There are other similar modules available, but this is the one used in the appDev framework. Full documentation can be found <a href="https://github.com/felixge/node-mysql" target="_blank">here</a>.</p>
+
+
+
+<h2>Installation</h2>
+<p><kbd>npm install mysql</kbd></p>
+
+
+
+<h2>Usage</h2>
+
+
+<h3>node.js mysql library initialization</h3>
+
+<pre class='code-highlight'>
+myDB = require(<span>'mysql'</span>).createClient({
+	user: <span>'root'</span>,
+	password: <span>'super secret password'</span>,
+	host: <span>'192.168.1.74'</span>,
+	port: <span>'3306'</span>
+});
+</pre>
+
+
+<h3>Simple select query example using the library</h3>
+
+<pre class='code-highlight'>
+var sql = <span>''</span>;
+sql += <span>'SELECT * FROM users '</span>;
+sql += <span>'WHERE id=<i>?</i> '</span>;
+sql += <span>'OR username=<i>?</i> '</span>;
+var values = [ <i>123</i>, <i>'yao.ming'</i> ];
+console.log(<span>'running sql [' + sql+ ']'</span>);
+myDB.query(<span>sql, values</span>, function(err, results, fields) { 
+    for (<span>var i=0</span>; <span>i<=results.length</span>; <span>i++</span>)
+    {
+        console.log(<span>''</span>);
+        console.log(<span>'results['+i+']:'</span>);
+        console.log(<span>results[i]</span>);
+    }
+});
+</pre>
+
+<p>Notice here that values are added to the query in a parameterized way; through the <i>?</i> symbol in the SQL itself, and an array containing the actual values to substitute the <i>?</i> symbols with.</p>
+
+<p>This is an important practice to keep, especially when dealing with data originating from the client side. The system will automatically add the appropriate quotation marks around the values, and also any escape slashes if needed. Basically it will sanitize the values to makes sure they don't do anything unexpected.</p>
+
+<p><img src="<%= tutorialPath %>/bobby-tables.png" /></p>
+
+
+

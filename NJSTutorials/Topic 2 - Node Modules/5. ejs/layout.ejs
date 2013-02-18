@@ -1,0 +1,45 @@
+<h1 class='h1'>EJS Library</h1>
+
+<p>Another useful 3rd party library is the EJS templating library. EJS was originally developed for use client side in a browser, but it works just as well for Node.js too.</p>
+
+<h2>Installation</h2>
+<p><kbd>npm install ejs</kbd></p>
+
+
+<h2>Why Templates?</h2>
+<p>Templates are a way for us to keep data and presentation separate. It lets us have our program logic in one place, and our display markup in another. So if the site layout changes, we won't need to go back and search through all our functions for HTML tags that need to be changed. It'll all be in the template. This also allows us to have the same data presented in various ways (a table of numbers, a bar chart, or even in XML) by passing it to different templates.</p>
+
+
+<h2>Example</h2>
+<p>The contents of an EJS template named 'layout.ejs' might look like this:</p>
+<pre>
+    &lt;h2&gt;&lt;%= message %&gt;&lt;/h2&gt;
+</pre>
+
+<p>If we render it with the following function:</p>
+<pre class='code-highlight'>
+var template = fs.readFileSync(<span>'layout.ejs'</span>);
+var data = {
+    locals: {
+        'message': <span>'hello world'</span>
+    }
+};
+var html = ejs.render(template, data);
+</pre>
+
+<p>Variable 'html' should now equal:</p>
+<pre>
+   &lt;h2&gt;hello world&lt;/h2&gt;
+</pre>
+
+
+<h2>Notes</h2>
+<ul>
+    <li>EJS templates use the <i>&lt;%</i> and <i>%&gt;</i> tags.</li>
+    <li>Anything inside those tags is interpreted as Javascript.</i>
+    <li>Variables put into the <i>locals</i> data object will be available to the template.</li>
+    <li>You can use <i>&lt;%= %&gt;</i> or <i>&lt;%- %&gt;</i> tags to display the contents of a variable directly.</li>
+</ul>
+
+<p>Additional documentation on ejs templates can be found at;
+<ul><li><a href='http://embeddedjs.com/getting_started.html' target="_blank">http://embeddedjs.com/getting_started.html</a></li></ul>
