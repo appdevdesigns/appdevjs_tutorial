@@ -1,0 +1,9 @@
+// basic appRAD info for this module
+
+
+module.exports = {
+	"module": "tutorial",
+	"name": "tutorial",
+	"iconPath": "/appRAD/portal/images/bookicon.png",
+	"sqlTables": {}
+};   
