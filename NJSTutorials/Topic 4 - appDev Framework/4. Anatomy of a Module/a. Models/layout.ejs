@@ -10,23 +10,23 @@
 
 <img src="<%= tutorialPath %>/model-server.png" style="float:right; margin: 1em;" />
 
-<p>Basically, a <b>DataStore</b> is the interface for the database. And the <b>DataManager</b> is the interface for the database tables.</p>
+<p>Basically, a <b>DataStore</b> is the interface for the database. And <strong>AD.Model</strong> is the interface for the database tables.</p>
 
 <p>File layout: <samp>appDev/modules/<i>[Module]</i>/models/</samp></p>
 
 <p>The server side model definitions are placed in a module's <samp>models/</samp> directory as shown above. These objects are responsible for handling any incoming CRUD requests for their tables, and fulfilling them.</p>
 
-<p>A model is simply an instance of our framework <b>DataManager</b> object, with parameters that define the target data. That is, it contains a fields definition of the DB table that it manages.</p>
+<p>A model is an instance of our framework <b>AD.Model</b> object.</p>
 
-<p>The <b>DataManager</b> object works through a framework supplied <b>DataStore</b> object to physically run the CRUD operations. Each type of backend DB (or data storage scheme) would have a DataStore that hadled the interactions with that system. For example: <samp>dataStore_MYSQL</samp> handles the operations to interface with a MySQL DB.</p>
+<p>The <b>model_SQL</b> object works through a framework supplied <b>DataStore</b> object to physically run the CRUD operations. Each type of backend DB (or data storage scheme) would have a DataStore that hadled the interactions with that system. For example: <samp>dataStore_MYSQL</samp> handles the operations to interface with a MySQL DB.</p>
 
-<p>The <b>DataStore</b> that is used by default is based on the options selected in the install process. This is indicated in <samp>appDev/node_modules/defaults.js</samp>.</p>
+<p>The <b>DataStore</b> that is used by default is based on the options selected in the install process. This is indicated in <samp>appDev/server/dataStore/</samp>.</p>
 
-<p><b>DataManager</b> objects manage individual DB tables. The base class object is defined in <samp>appDev/node_modules/dataManager.js</samp>.</p>
+<p><b>model_SQL</b> objects manage individual DB tables. The base class object is defined in <samp>appDev/server/model_SQL.js</samp>.</p>
 
-<p><b>DataManagerMultilingual</b> objects manage our multilingual style tables. A multilingual table is really two tables combined together: one for storing traditional data, and the other for the language dependent data. The base class object is found in <samp>appDev/node_modules/dataManagerMultilingual.js</samp>.</p>
+<p><b>model_SQLMultilingual</b> objects manage our multilingual style tables. A multilingual table is really two tables combined together: one for storing traditional data, and the other for the language dependent data. The base class object is found in <samp>appDev/server/model_SQLMultilingual.js</samp>.</p>
 
-<p><b>DataStore</b> objects are found in <samp>appDev/node_modules/dataStore/dataStore_<i>XXXX</i>.js</samp> where <i>XXXX</i> refers to the type of database it interfaces with. (Such as MySQL.)</p>
+<p><b>DataStore</b> objects are found in <samp>appDev/server/dataStore/dataStore_<i>XXXX</i>.js</samp> where <i>XXXX</i> refers to the type of database it interfaces with. (Such as MySQL.)</p>
 
 
 
