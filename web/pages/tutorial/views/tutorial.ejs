@@ -196,14 +196,14 @@ pre.code-highlight span {
     <div id='nextPrev' class="links">
         <a vid="prev" class="prev" href="#">Previous</a>
         <a vid="next" class="next" href="#">Next</a>
-        <div class="clear"></div>
+        <div></div>
     </div>
     <div id='tutorialMain' max_id='<%- data.navlist.length-1 %>'>
         <%
         var makeTutorialMain = function (navbar) {
                     var html = '<div>';
                     for (var i=0; i<navbar.length; i++) {
-                        html += '<div vid=' +i+' style="display: none">';
+                        html += '<div vid=' +i+' style="display: none;height:100%">';
                         html += navbar[i]['path'];
                         html += '</div>';
                     }
@@ -213,5 +213,10 @@ pre.code-highlight span {
                 }
         %>
         <%- makeTutorialMain(data.navlist) %>
-    </div>         
+    </div> 
+    <!-- <div id='bottomNextPrev' class="links">
+        <a vid="prev" class="prev" href="#">Previous</a>
+        <a vid="next" class="next" href="#">Next</a>
+        <div class="clear"></div>
+    </div> -->       
 </div>

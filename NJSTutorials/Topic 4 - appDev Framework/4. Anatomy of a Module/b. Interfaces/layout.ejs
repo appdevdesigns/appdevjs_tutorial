@@ -10,35 +10,40 @@
         <ul>
             <li>HRIS/</li>
             <ul>
-                <li>interfaces/</li>
+                <li>pages/</li>
                 <ul>
                     <li>wizardNewUser/</li>
                     <li class="has-more">portal/
                         <div class="caption">
-                            <p>The interface directory.</p>
-                            <p>Note that each interface is contained in its own directory.</p>
+                            <p>The page directory.</p>
+                            <p>Note that each page is contained in its own directory.</p>
                         </div>
                     </li>
                     <ul>
                         <li class="has-more">node_portal.js
                             <div class="caption">
                                 <p>The interface definition.</p>
-                                <p>Note that it is named <samp>node_<i>[interfaceName]</i>.js</samp></p>
+                                <p>Note that it is named node_<i>[pageName]</i>.js</p>
                             </div>
                         </li>
                         <li class="has-more">containers/
                             <div class="caption">
-                                <p>All the interface's data can be compiled into a single javascript setup file, or broken down into smaller containers. Those containers are stored here.</p>
+                                <p>All the page's data can be compiled into a single javascript setup file, or broken down into smaller containers. Those containers are stored here.</p>
+                            </div>
+                        </li>
+                        <li class="has-more">css/
+                            <div class="caption">
+                                <p>Any css files used for the page are put into this directory.</p>
                             </div>
                         </li>
                         <li class="has-more">scripts/
                             <div class="caption">
-                                <p>All the necessary client side javascripts needed for the interface's operation.</p>
+                                <p>All the necessary client side javascripts needed for the page's operation.</p>
                                 <p>The RADTool will generate 2 script files by default:
                                     <dl>
-                                        <dt><i>[interfaceName]</i>RAD.js</dt>
-                                            <dd>This file will be automatically generated from the RAD tool. It will make sure all the dependencies are loaded and any initial setup operations are called before the programmer defined setup routine is called in <i>[interfaceName]</i>.js</dd>
-                                        <dt><i>[interfaceName]</i>.js</dt>
+                                        <dt><i>[pageName]</i>RAD.js</dt>
+                                            <dd>This file will be automatically generated from the RAD tool. It will make sure all the dependencies are loaded and any initial setup operations are called before the programmer defined setup routine is called in <i>[pageName]</i>.js</dd>
+                                        <dt><i>[pageName]</i>.js</dt>
                                             <dd>This file is where the developer will place all their javascript setup routines for the client application.</dd>
                                     </dl>
                                 </p>
@@ -50,8 +55,8 @@
                         </ul>
                         <li class="has-more">views/
                             <div class="caption">
-                                <p>The initial page load will return the base HTML data that will be necessary to display the page (and for the javascript operations defined in the <samp><i>[interfaceName]</i>.js</samp> page to operate on). That data is contained in javascript templates located in this directory.</p>
-                                <p>The initial javascript template to produce the HTML for the current interface is named <samp><i>[interfaceName]</i>.ejs</samp></p>
+                                <p>The initial page load will return the base HTML data that will be necessary to display the page (and for the javascript operations defined in the <i>[pageName]</i>.js page to operate on). That data is contained in javascript templates located in this directory.</p>
+                                <p>The initial javascript template to produce the HTML for the current page is named <i>[pageName]</i>.ejs</p>
                                 <p>(ejs == embedded javascript)</p>
                             </div>
                         </li>
@@ -60,9 +65,6 @@
                                 <p>if there are any <b>server side</b> actions that don't fall into the basic model CRUD actions, you can create them here</p>
                             </div>
                         </li>
-                        <ul>
-                            <li>node_<i>[serviceName]</i>.js</li>
-                        </ul>
                     </ul>
                 </ul>
             </ul>

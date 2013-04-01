@@ -19,30 +19,50 @@
                     <div class="caption">This is just an example module called "HRIS".</div>
                 </li>
                 <ul>
-                    <li>node_HRIS.js
-                        <div class="caption">
-                            <p>The module definition. Note that it is named <samp>node_[moduleName].js</samp></p>
-                            <p>This file is responsible for gathering the information necessary to run the appication.<ul>
-                                <li>which pages are available to present to the client</li>
-                                <li>Model definitions to interact with the DB</li>
-                                <li>etc...</li>
-                            </ul></p>
-                        </div>
-                    </li>
-                    <li>interfaces/
-                        <div class="caption">Modules can have numerous pages/interfaces to offer the client. Each interface has its own sub-directory, and they are contained in this directory.</div>
-                    </li>
-                    <li>models/
-                        <div class="caption">This contains models that are common to all the interfaces of the module. Models that are specific to only one interface will be located in the <i>interfaces/</i> directory above.</div>
-                    </li>
                     <li>data/
-                        <div class="caption">Anything else that will be sent to the client goes in here. This includes images and Javascript files to be included in the browser. That means widgets too.</div>
                     </li>
                     <ul>
-                        <li>scripts/
-                            <div class="caption">Any Javascript file you put in here will automatically be included every time the module is loaded.</div>
-                        </li>
+                    	<li>install/
+                    		<div class="caption">Any translation files (*.po) and sql install files are stored in this directory.</div>
+                    	</li>
                     </ul>
+                    <li>models/
+                        <div class="caption">This contains models that are common to all the pages of the module.</div>
+                    </li>
+                    <li>server/
+                    	<div class="caption">This contains services that are common to all the pages of the module.</div>
+                    </li>
+                    <li>titanium/
+                    	<div class="caption">This contains files for the titanium version of this module.</div>
+                    </li>
+                    <li>web/
+                    </li>
+                    <ul>
+                    	<li>pages/
+                    	</li>
+                    	<li>resources/
+                    	</li>
+                    	<ul>
+                    		<li>css/
+                    			<div class="caption">Any css files for the module are put into this directory.</div>
+                    		</li>
+                    		<li>images/
+                    			<div class="caption">Any image files for the module are put into this directory.</div>
+                    		</li>
+                    		<li>scripts/
+                    			<div class="caption">Any script files for the module are put into this directory.</div>
+                    		</li>
+                    </ul>
+                    <li>def_HRIS.js
+                    	<div class="caption">
+                    		<p>The page definition. Note that it is named <samp>def_[pageName].js</samp></p>
+                            <p>This file is responsible for gathering the information necessary to run the appication.<ul>
+                            <li>creates routes for application</li>
+                            <li>Model definitions to interact with the DB</li>
+                            <li>etc...</li>
+                            </ul></p>
+                    	</div>
+                    </li>
                 </ul>
             </ul>
         </ul>
@@ -51,5 +71,4 @@
 </p>
 
 <h2>More</h2>
-<p>Use the sidebar on the left to get details on Models, Views,  Interfaces, and Containers.</p>
-
+<p>Use the sidebar on the left to get details on Models, Views,  Pages, and Containers.</p>

@@ -25,6 +25,7 @@
 	  $('#navBar').nav_bar();
 	  $('#tutorialMain div[vid]').tutorial_main();
 	  $('#nextPrev').next_prev();
+	  $('#bottomNextPrev').next_prev();
 	  $('#logoImg').logo_img();
   
 

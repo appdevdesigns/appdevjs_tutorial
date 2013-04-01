@@ -69,16 +69,20 @@ $.Controller("tutorialMain",
         if (id == maxID) {
             // wrap around
             $("#nextPrev a.next").attr("vid", '0'); 
+            $("#bottomNextPrev a.next").attr("vid",'0');
         } else {
             // normal
             $("#nextPrev a.next").attr("vid", parseInt(id)+1); 
+            $("#bottomNextPrev a.next").attr("vid",parseInt(id)+1);
         }
         if (id == 0) {
             // wrap around
             $("#nextPrev a.prev").attr("vid", maxID); 
+            $("#bottomNextPrev a.prev").attr("vid", maxID);
         } else {
             // normal
             $("#nextPrev a.prev").attr("vid", id-1); 
+            $("#bottomNextPrev a.prev").attr("vid", id-1);
         }
 
     }
