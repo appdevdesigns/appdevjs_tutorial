@@ -2,31 +2,23 @@
 body {
     padding: 0;
     font-family: helvetica, sans-serif, arial, tahoma;
-    background: #353129;
+    background: #eee;
 	font-size: 10pt;
 	margin: 0 2em 5em 2em;
-	color: #eee;
+	color: #353129;
 }
 div.navbar {
-    float: left;
-    position: fixed;
-    margin: 0 0 0 0;
-    left: 0;
-    width: 16em;
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 10pt;
-    line-height: 150%;
-    border-right: 1px solid white;
-    max-height: 90%;
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: auto;
+    height: 550px;
 }
 div.navbar a {
     white-space: nowrap;
+    color: #353129;
 }
+div.navbar 
 div.main {
-    margin: 2em 0 0 14em;
-    padding-left: 2em;
-    height: inherit;
     overflow: auto;
 }
 #tutorialMain {
@@ -34,7 +26,7 @@ div.main {
 }
 div.main-title {
     text-align: center;
-    color: white;
+    color: black;
     font-size: 14pt;
     line-height: 150%;
 }
@@ -43,7 +35,7 @@ div.main-title {
     height: 2em;
 }
 a {
-	color: #8BC84B;
+	color: #353129;
 	text-decoration: none;
 }
 a:hover { text-decoration: underline; }
@@ -68,7 +60,7 @@ a:hover { text-decoration: underline; }
 #tutorialMain h2,
 #tutorialMain h3,
 #tutorialMain h4 {
-color: #D2D8BA;
+color: black;
 }
 #tutorialMain p {
     padding-left: 1em;
@@ -136,8 +128,8 @@ pre.code-explain span {
 }
 pre.code-explain span div.caption {
     display: none;
-    border: dotted yellow 1px;
-    background: #c3ba2a;
+    border: dotted gray 1px;
+    background: #eee;
     color: black;
     font-family: helvetica, sans-serif, arial;
 }
@@ -165,8 +157,9 @@ pre.code-highlight span {
 }
 </style>
 
-
-<div id="navBar" class="navbar">       
+<div class="container-fluid">
+<div class="row-fluid">
+<div id="navBar" class="navbar span3 well">       
     <% 
     var showNavBar = function (navbar) {
         html = '<table>';
@@ -191,7 +184,7 @@ pre.code-highlight span {
     %>
     <%- showNavBar(data.navlist) %>            
 </div>
-<div class="main">
+<div class="main span9 well">
     <div class="main-title"><%= data.title %></div>
     <div id='nextPrev' class="links">
         <a vid="prev" class="prev" href="#">Previous</a>
@@ -203,7 +196,7 @@ pre.code-highlight span {
         var makeTutorialMain = function (navbar) {
                     var html = '<div>';
                     for (var i=0; i<navbar.length; i++) {
-                        html += '<div vid=' +i+' style="display: none;height:100%">';
+                        html += '<div vid=' +i+' style="display: none">';
                         html += navbar[i]['path'];
                         html += '</div>';
                     }
@@ -214,9 +207,12 @@ pre.code-highlight span {
         %>
         <%- makeTutorialMain(data.navlist) %>
     </div> 
-    <!-- <div id='bottomNextPrev' class="links">
+    <div id='bottomNextPrev' class="links">
         <a vid="prev" class="prev" href="#">Previous</a>
         <a vid="next" class="next" href="#">Next</a>
         <div class="clear"></div>
-    </div> -->       
+    </div>       
 </div>
+</div>
+</div>
+

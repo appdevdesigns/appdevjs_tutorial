@@ -63,6 +63,12 @@ $.Controller("tutorialMain",
         
         var maxID = $('#tutorialMain').attr('max_id');
         
+        if (id == 'next'){
+        	id = 0;
+        } else if (id == 'prev'){
+        	id = maxID;
+        }
+        
         tutorialMain.showhide(id, self);
         
         // Update the next/prev links

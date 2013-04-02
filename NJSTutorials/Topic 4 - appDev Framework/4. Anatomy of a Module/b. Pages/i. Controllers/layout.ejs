@@ -1,0 +1,152 @@
+<h1>Controllers</h1>
+
+<p>These are Javascript routines that work on the client side. They are responsible for moving data between the model (server data) and the view (browser web page). They also handle the logic for interactive components of the user interface, as well as organizing any widgets that are used.</p>
+
+<p>Each controller can be defined in its own file, or you can put multiple controllers together in a single file. These files will go inside the <samp>data/scripts</samp> directory of either the module's root, or one of the interfaces. That is, either:<br/>
+    <samp>appDev/modules/<i>[moduleName]</i>/data/scripts/</samp><br/>
+or: <br/>
+    <samp>appDev/modules/<i>[moduleName]</i>/<i>[interfaceName]</i>/data/scripts/</samp>
+</p>
+
+
+<p>You may remember this from the javascriptMVC section earlier. Here is an example controller that is responsible for this very tutorial app you are using now:
+<pre class="code-explain">
+<span>$.Controller("TutorialMain", <div class="caption"><p>This creates a subclass of the JavascriptMVC <samp>Controller</samp> class, and calls it <samp>TutorialMain</samp>. You will be able to access <samp>TutorialMain</samp> anywhere in Javascript just like any other global object.</p>  <p>It also creates a jQuery plugin called <samp>tutorial_main</samp>. Notice the change to all lowercase and the addition of an underscore. This is done automatically by JavascriptMVC. After this, you can jQuery select any page element and then apply the controller to it using the plugin.</p>  <p>Like so: <pre>$('#someDiv').tutorial_main();</pre></p></div></span>
+{
+    // Class Methods (Static Methods)
+    
+    <span>showhide: function(id, self)
+    {<div class="caption">This is a custom helper function we added to the <samp>TutorialMain</samp> class. It is in the <b>class methods</b> section (the first <samp>{ }</samp>), so use the class name to get to the function. That is:<pre>TutorialMain.showhide(123, myInstance);</pre></div></span>
+        
+        if (id == self.personalid)
+        {
+            if (!self.isload)
+            {
+                <span>Tutorial.findOne(
+                 { 'vid': id },<div class="caption">This is a call to the <samp>findOne()</samp> method of the <samp>Tutorial</samp> client side model. Pass in the ID and it fetches the relevant HTML code from the server.</div>
+                 // success
+                 function(data) {
+                     var tutorialHTML = data;
+                     self.element.empty().append(tutorialHTML);
+                     self.isload = true;
+                 }, 
+                 // error
+                 function(err) {
+                     self.element.innerHTML += err.statusText;
+                     self.isload = true;
+                 }
+                );</span>
+            }
+            self.element.show();
+        } 
+        else
+        {
+            self.element.hide();
+        }
+        
+    }
+},
+{
+    // Prototype Methods (Instance Methods)
+    
+    <span>init: function(el, options) {<div class="caption"><p>Now we are in the <b>prototype methods</b> section (the second <samp>{ }</samp>). This means all the functions here will be associated with any instance of the <samp>TutorialMain</samp> class.</p>  <p>The <samp>init()</samp> function is the constructor. It will be called once a page element has been activated via the jQuery plugin <samp>tutorial_main()</samp>.</p></div></span>
+        
+        var self = this;
+        
+        self.isload = false;
+        self.personalid = self.element.attr("vid");
+    },
+    
+    <span>'navbar.clicked subscribe': function(called, data) {<div class="caption"><p>This subscribes the controller to the <samp>navbar.clicked</samp> event. The event name string is up to you to define. Whenever that event is published, such as by another controller on the page, this function will catch it and respond.</p></p></div></span>
+        
+        var id = data.id;
+        var self = this;
+        
+        TutorialMain.showhide(id, self);
+        
+        // Update the next/prev links
+        $("#nextPrev a.next").attr("vid", parseInt(id)+1); 
+        $("#nextPrev a.prev").attr("vid", id-1); 
+
+    }
+});
+    
+</pre>
+</p>
+
+<p>Here is another controller:
+<pre class="code-explain">
+$.Controller("NextPrev", 
+{
+    // no class methods
+},
+{
+    // Prototype methods
+
+    init: function( el, options) {
+        var self = this;
+        // nothing to initialize
+    },
+    
+    <span>"click" : function (){<div class="caption"><p>Here we respond to the <samp>click</samp> DOM event. DOM events are the basic <a href="http://api.jquery.com/category/events/" target="_blank">jQuery</a> ones like click, mouseon, mouseout, focus, and blur. These are different from the OpenAjax events that you can manually define and trigger (see below).</p>  <p>In the Tutorial app, the <samp>NextPrev</samp> controller is attached to the &lt;DIV&gt; container that houses the "Next" and "Previous" hyperlinks. So this function will get triggered whenever any part of that DIV is clicked on. The jQuery equivalent is something like this: <pre>$('#nextPrev').click(function() { 
+    alert(...); 
+});</pre></p> <p>The alert will be shown whether you click on the actual next/prev link, even anywhere else on it. We don't really want that to happen. The actual live code does not contain this part.</p></div></span>
+        alert('clicked!');
+    },
+    
+    <span>"a click": function (div, ev) {<div class="caption"><p>Here we respond to the DOM click event on any <samp>&lt;a&gt;</samp> child element. That is, on any hyperlink. In jQuery terms, it can be thought of as the equivalent of like this: <pre>$('#nextPrev a').click(function() { ... </pre></p> </div></span>
+        var id = div.attr('vid');
+        <span>OpenAjax.hub.publish("navbar.clicked", { id: id });<div class="caption">This is where we publish our custom OpenAjax <samp>navbar.clicked</samp> event. It will be caught by the <samp>TutorialMain</samp> controller shown above.</p></div></span>
+    },
+    
+});
+
+</pre>
+</p>
+
+
+<p>Finally, here is the code that attaches the above controllers to their DOM elements on the page. This is from the interface's Tutorial.js file (in the interface's <samp>data/scripts</samp> folder), which was initially generated by the RADTool. We added 3 lines to it.</p>
+
+<pre class="code-explain">
+/**
+ *  The setup script for the tutorial Interface container. 
+ *
+ *  The job of this code is to perform all the setup steps on the existing
+ *  HTML DOM items now.  Add Events, actions, etc... 
+ *
+ *  This file will be generated 1x by the RAD tool and then left alone.
+ *  It is safe to put all your custom code here.
+ */
+
+  (function() {
+  
+  
+  
+  ////[appRad] --  setup object definitions here:
+  var tutorialTutorialSetup = function (topic, data) {
+  
+  
+      //// Setup Your Page Data/ Operation Here
+<span>      $('#navBar').nav_bar();
+      $('#tutorialMain div[vid]').tutorial_main();
+      $('#nextPrev').next_prev();<div class="caption">These 3 lines use the controllers' jQuery plugin functions to initialize the page elements.</div></span>
+  
+
+  
+  } // end tutorialTutorialSetup()
+  OpenAjax.hub.subscribe('ad.tutorial.tutorial.setup',tutorialTutorialSetup);
+  
+  
+  
+  
+  $(document).ready(function () {
+  
+      //// Do you need to do something on document.ready() before the above
+      //// tutorialTutorialSetup() script is called?
+    
+      
+  
+  }); // end ready()
+  
+}) ();
+</pre>
